@@ -1,5 +1,8 @@
 import { initializeApp } from "firebase/app";
+import firebase from "firebase/compat/app";
 
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
 // import {...} from "firebase/database";
@@ -18,11 +21,21 @@ const firebaseConfig = {
   measurementId: "G-XTF5ELS29B",
 };
 
-const app = initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  //if there is firebase connectivity
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app();
+}
+
+// const app = initializeApp(firebaseConfig);
+
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
 
 // Initialize Firebase Authentication and get a reference to the service
-const auth = getAuth(app);
+// const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
+// const db = getFirestore(app);
+
+export { firebase };
