@@ -39,8 +39,8 @@ function getAdminTitle(route) {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <ApplicationProvider {...eva} theme={eva.light}>
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <NavigationContainer>
         <Stack.Navigator initialRouteName="AdminTabBar">
           {/* <Stack.Screen name="Login" component={LogIn} />
         <Stack.Screen name="SignUp" component={SignUp} /> */}
@@ -59,7 +59,7 @@ export default function App() {
           <Stack.Screen name="AdminMemberList" component={AdminMemberList} />
           <Stack.Screen name="AdminProfile" component={AdminProfile} />
         </Stack.Navigator>
-      </ApplicationProvider>
-    </NavigationContainer>
+      </NavigationContainer>
+    </ApplicationProvider>
   );
 }
