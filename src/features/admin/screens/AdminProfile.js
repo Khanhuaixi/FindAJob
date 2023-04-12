@@ -12,6 +12,7 @@ import {
   LogBox,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
+import { firebase } from "../../../../config";
 
 function AdminProfile({ navigation }) {
   const [user, setUser] = useState("");
@@ -21,9 +22,9 @@ function AdminProfile({ navigation }) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const db = firebase.firestore();
-  const userId = firebase.auth().currentUser.uid;
-  const userRef = db.collection("users").doc(userId);
+  // const db = firebase.firestore();
+  // const userId = firebase.auth().currentUser.uid;
+  // const userRef = db.collection("users").doc(userId);
 
   return (
     <View>
