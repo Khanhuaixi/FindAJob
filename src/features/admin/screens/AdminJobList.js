@@ -43,10 +43,15 @@ function AdminJobList({ navigation }) {
       header={(headerProps) => renderItemHeader(headerProps, info)}
       footer={(footerProps) => renderItemFooter(footerProps, info)}
     >
-      <Text>Job Description:</Text>
-      <Text>{info.item.jobDescription}</Text>
-
-      <Text>Job Location: {info.item.jobLocation}</Text>
+      <Text>
+        Job Description:{"\n"}
+        {info.item.jobDescription}
+        {"\n"}
+      </Text>
+      <Text>
+        Salary Range:{"\n"}
+        {info.item.salaryRange}
+      </Text>
     </Card>
   );
 
