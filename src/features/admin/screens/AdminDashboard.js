@@ -23,8 +23,9 @@ const AdminDashboard = () => {
   return (
     <View style={styles.Container}>
       <View style={styles.HeadContainer}>
-        <Text>Admin Dashboard</Text>
+        {/* <Text>Admin Dashboard</Text> */}
       </View>
+      <Text style={styles.title}>Native API Calls</Text>
     </View>
   );
 };
@@ -43,5 +44,9 @@ const styles = StyleSheet.create({
     flex: 0.2,
     flexDirection: "column",
     justifyContent: "space-around",
+  },
+  title: {
+    fontSize: 35,
+    color: "#fff",
   },
 });
