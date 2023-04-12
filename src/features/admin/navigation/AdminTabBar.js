@@ -3,6 +3,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import AdminJobList from "../screens/AdminJobList";
 import AdminEmployerList from "../screens/AdminEmployerList";
 import AdminMemberList from "../screens/AdminMemberList";
+import AdminProfile from "../screens/AdminProfile";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -35,7 +36,7 @@ export function AdminTabBar() {
       />
       <Tab.Screen
         name="AdminProfile"
-        component={AdminMemberList}
+        component={AdminProfile}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: () => <Ionicons name="person-circle-outline" size={20} />,

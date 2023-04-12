@@ -11,6 +11,7 @@ import {
   StyleSheet,
   LogBox,
 } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
 
 function AdminProfile({ navigation }) {
   const [user, setUser] = useState("");
@@ -26,7 +27,7 @@ function AdminProfile({ navigation }) {
 
   return (
     <View>
-      <Text>Job List</Text>
+      <Text>Admin Profile</Text>
     </View>
   );
 }
