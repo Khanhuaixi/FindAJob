@@ -9,6 +9,8 @@ import AdminJobList from "./src/features/admin/screens/AdminJobList";
 import AdminEmployerList from "./src/features/admin/screens/AdminEmployerList";
 import AdminMemberList from "./src/features/admin/screens/AdminMemberList";
 import AdminProfile from "./src/features/admin/screens/AdminProfile";
+import * as eva from "@eva-design/eva";
+import { ApplicationProvider, Layout, Text } from "@ui-kitten/components";
 
 const theme = {
   ...DefaultTheme,
@@ -38,21 +40,26 @@ function getAdminTitle(route) {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="AdminTabBar">
-        {/* <Stack.Screen name="Login" component={LogIn} />
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <Stack.Navigator initialRouteName="AdminTabBar">
+          {/* <Stack.Screen name="Login" component={LogIn} />
         <Stack.Screen name="SignUp" component={SignUp} /> */}
-        <Stack.Screen
-          name="AdminTabBar"
-          component={AdminTabBar}
-          options={({ route }) => ({
-            headerTitle: getAdminTitle(route),
-          })}
-        />
-        <Stack.Screen name="AdminJobList" component={AdminJobList} />
-        <Stack.Screen name="AdminEmployerList" component={AdminEmployerList} />
-        <Stack.Screen name="AdminMemberList" component={AdminMemberList} />
-        <Stack.Screen name="AdminProfile" component={AdminProfile} />
-      </Stack.Navigator>
+          <Stack.Screen
+            name="AdminTabBar"
+            component={AdminTabBar}
+            options={({ route }) => ({
+              headerTitle: getAdminTitle(route),
+            })}
+          />
+          <Stack.Screen name="AdminJobList" component={AdminJobList} />
+          <Stack.Screen
+            name="AdminEmployerList"
+            component={AdminEmployerList}
+          />
+          <Stack.Screen name="AdminMemberList" component={AdminMemberList} />
+          <Stack.Screen name="AdminProfile" component={AdminProfile} />
+        </Stack.Navigator>
+      </ApplicationProvider>
     </NavigationContainer>
   );
 }
