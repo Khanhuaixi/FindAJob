@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Pressable } from "react-native";
-import { Card, Layout, Text, List, Button } from "@ui-kitten/components";
+import { Card, Layout, Text, List, Button, Modal } from "@ui-kitten/components";
 
 function AdminJobList({ navigation }) {
   const jobs = new Array(8).fill({
