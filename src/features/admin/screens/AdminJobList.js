@@ -1,35 +1,34 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Card, Layout, Text, List } from "@ui-kitten/components";
-
-const jobs = new Array(8).fill({
-  jobId: "J001",
-  jobName: "Full Stack Developer",
-  jobLocation: "Bukit Bintang",
-  employerId: "E001",
-  createdDate: "2022-08-01",
-  jobDescription:
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-  careerLevel: "Fresh Grad",
-  yearOfExperience: "0",
-  qualification: "Degree",
-  jobType: "Office",
-  jobSpecialization: "Full Stack",
-  salaryRange: "3500 - 4000",
-  applicantList: applicants,
-});
-
-const applicants = new Array(2).fill({
-  applicantId: "A001",
-});
+import { StyleSheet, View, Pressable } from "react-native";
+import { Card, Layout, Text, List, Button } from "@ui-kitten/components";
 
 function AdminJobList({ navigation }) {
+  const jobs = new Array(8).fill({
+    jobId: "J001",
+    jobName: "Full Stack Developer",
+    jobLocation: "Bukit Bintang",
+    employerId: "E001",
+    createdDate: "2022-08-01",
+    jobDescription:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+    careerLevel: "Fresh Grad",
+    yearOfExperience: "0",
+    qualification: "Degree",
+    jobType: "Office",
+    jobSpecialization: "Full Stack",
+    salaryRange: "3500 - 4000",
+    applicantList: applicants,
+  });
+
+  const applicants = new Array(2).fill({
+    applicantId: "A001",
+  });
+
   const renderItemHeader = (headerProps, info) => (
     <View {...headerProps}>
       <Text category="h6">
         {info.item.jobName} {info.index + 1}
       </Text>
-      <Text category="s1">Job Location: {info.item.jobLocation}</Text>
     </View>
   );
 
@@ -39,27 +38,44 @@ function AdminJobList({ navigation }) {
 
   const renderItem = (info) => (
     <Card
+      style={styles.card}
       status="basic"
       header={(headerProps) => renderItemHeader(headerProps, info)}
       footer={(footerProps) => renderItemFooter(footerProps, info)}
+      onPress={() => {
+        navigation.navigate("AdminJobManagement", {
+          job: info.item,
+        });
+      }}
     >
-      <Text>
-        Job Description:{"\n"}
-        {info.item.jobDescription}
+      <Text category="s1">
+        Job Location: {"\n"}
+        {info.item.jobLocation}
         {"\n"}
       </Text>
       <Text>
         Salary Range:{"\n"}
-        {info.item.salaryRange}
+        RM{info.item.salaryRange}
       </Text>
     </Card>
   );
 
   return (
-    <Layout style={{ flex: 1, alignItems: "center" }}>
+    <Layout style={{ flex: 1, alignItems: "stretch" }}>
       <List data={jobs} renderItem={renderItem} />
     </Layout>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    maxHeight: 180,
+    flex: 1,
+  },
+  card: {
+    margin: 5,
+    width: "auto",
+  },
+});
 
 export default AdminJobList;

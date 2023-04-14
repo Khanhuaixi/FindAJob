@@ -11,6 +11,7 @@ import AdminMemberList from "./src/features/admin/screens/AdminMemberList";
 import AdminProfile from "./src/features/admin/screens/AdminProfile";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider, Layout, Text } from "@ui-kitten/components";
+import AdminJobManagement from "./src/features/admin/screens/AdminJobManagement";
 
 const theme = {
   ...DefaultTheme,
@@ -58,6 +59,14 @@ export default function App() {
           />
           <Stack.Screen name="AdminMemberList" component={AdminMemberList} />
           <Stack.Screen name="AdminProfile" component={AdminProfile} />
+
+          <Stack.Screen
+            name="AdminJobManagement"
+            component={AdminJobManagement}
+            options={() => ({
+              headerTitle: "Job Detail",
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>
