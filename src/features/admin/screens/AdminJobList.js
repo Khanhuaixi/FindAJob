@@ -12,10 +12,10 @@ function AdminJobList({ navigation }) {
     jobDescription:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
     careerLevel: "Fresh Grad",
-    yearOfExperience: "0",
+    yearsOfExperience: "0",
     qualification: "Degree",
-    jobType: "Office",
-    jobSpecialization: "Full Stack",
+    jobType: "Full Time",
+    jobSpecialization: "Computer/Information Technology, IT-Software",
     salaryRange: "3500 - 4000",
     applicantList: applicants,
   });
@@ -33,7 +33,7 @@ function AdminJobList({ navigation }) {
   );
 
   const renderItemFooter = (footerProps, info) => (
-    <Text {...footerProps}>Created Date: {info.item.createdDate}</Text>
+    <Text {...footerProps}>Posted on: {info.item.createdDate}</Text>
   );
 
   const renderItem = (info) => (
