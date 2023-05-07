@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { Image, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
-import { ROLE_CUSTOMER } from "../../../../constants/constants";
+import { ROLE_APPLICANT } from "../../../../constants/constants";
 
 export default function SignupScreen({ navigation }) {
-  const role = ROLE_CUSTOMER;
+  const role = ROLE_APPLICANT;
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
