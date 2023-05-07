@@ -1,6 +1,6 @@
-import { Button, Input, Layout, Text } from "@ui-kitten/components";
+import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
 import React, { useState } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
 import { ROLE_APPLICANT } from "../../../../constants/constants";
@@ -11,9 +11,13 @@ export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordSecureTextEntry, setPasswordSecureTextEntry] =
+    React.useState(true);
+  const [confirmPasswordSecureTextEntry, setConfirmPasswordSecureTextEntry] =
+    React.useState(true);
 
   const onLoginNavPress = () => {
-    navigation.navigate("Login");
+    navigation.navigate("LoginScreen");
   };
 
   const onRegisterPress = async () => {
@@ -52,6 +56,29 @@ export default function SignupScreen({ navigation }) {
       });
   };
 
+  const togglePasswordSecureEntry = () => {
+    setPasswordSecureTextEntry(!passwordSecureTextEntry);
+  };
+
+  const toggleConfirmPasswordSecureEntry = () => {
+    setConfirmPasswordSecureTextEntry(!confirmPasswordSecureTextEntry);
+  };
+
+  const renderIconPassword = (props) => (
+    <TouchableWithoutFeedback onPress={togglePasswordSecureEntry}>
+      <Icon {...props} name={passwordSecureTextEntry ? "eye-off" : "eye"} />
+    </TouchableWithoutFeedback>
+  );
+
+  const renderIconConfirmPassword = (props) => (
+    <TouchableWithoutFeedback onPress={toggleConfirmPasswordSecureEntry}>
+      <Icon
+        {...props}
+        name={confirmPasswordSecureTextEntry ? "eye-off" : "eye"}
+      />
+    </TouchableWithoutFeedback>
+  );
+
   return (
     <Layout style={styles.layout}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
@@ -81,6 +108,8 @@ export default function SignupScreen({ navigation }) {
           value={password}
           label="Password"
           placeholder="Enter your password"
+          accessoryRight={renderIconPassword}
+          secureTextEntry={passwordSecureTextEntry}
           onChangeText={(nextValue) => setPassword(nextValue)}
           autoCapitalize="none"
         />
@@ -89,6 +118,8 @@ export default function SignupScreen({ navigation }) {
           value={confirmPassword}
           label="Confirm Password"
           placeholder="Please confirm your password"
+          accessoryRight={renderIconConfirmPassword}
+          secureTextEntry={confirmPasswordSecureTextEntry}
           onChangeText={(nextValue) => setConfirmPassword(nextValue)}
           autoCapitalize="none"
         />
@@ -112,21 +143,6 @@ export default function SignupScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  captionContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  captionIcon: {
-    width: 10,
-    height: 10,
-    marginRight: 5,
-  },
-  captionText: {
-    fontSize: 12,
-    fontWeight: "400",
-    color: "#8F9BB3",
-  },
   logo: {
     alignSelf: "center",
   },

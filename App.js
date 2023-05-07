@@ -51,9 +51,21 @@ export default () => (
     <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="SignUp" component={SignupScreen} />
+        <Stack.Navigator initialRouteName="LoginScreen">
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={{
+              headerTitle: "Login",
+            }}
+          />
+          <Stack.Screen
+            name="SignupScreen"
+            component={SignupScreen}
+            options={{
+              headerTitle: "Sign Up",
+            }}
+          />
           <Stack.Screen
             name="AdminTabBar"
             component={AdminTabBar}

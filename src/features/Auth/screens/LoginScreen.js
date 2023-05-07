@@ -15,7 +15,7 @@ function LoginScreen({ navigation }) {
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
 
   const onSignupNavPress = () => {
-    navigation.navigate("SignUp");
+    navigation.navigate("SignupScreen");
   };
 
   const onLoginPress = async () => {
@@ -122,21 +122,6 @@ function LoginScreen({ navigation }) {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  captionContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  captionIcon: {
-    width: 10,
-    height: 10,
-    marginRight: 5,
-  },
-  captionText: {
-    fontSize: 12,
-    fontWeight: "400",
-    color: "#8F9BB3",
-  },
   logo: {
     alignSelf: "center",
   },
