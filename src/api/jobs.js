@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL } from "../../constants";
+import { URL } from "../../constants/constants";
 
 export async function createJob(
   jobId,
