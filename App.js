@@ -10,8 +10,16 @@ import AdminEmployerList from "./src/features/admin/screens/AdminEmployerList";
 import AdminMemberList from "./src/features/admin/screens/AdminMemberList";
 import AdminProfile from "./src/features/admin/screens/AdminProfile";
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider, Layout, Text } from "@ui-kitten/components";
+import {
+  ApplicationProvider,
+  Layout,
+  Text,
+  IconRegistry,
+} from "@ui-kitten/components";
 import AdminJobManagement from "./src/features/admin/screens/AdminJobManagement";
+import LoginScreen from "./src/features/Auth/screens/LoginScreen";
+import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import SignupScreen from "./src/features/Auth/screens/SignupScreen";
 
 const theme = {
   ...DefaultTheme,
@@ -38,13 +46,14 @@ function getAdminTitle(route) {
   }
 }
 
-export default function App() {
-  return (
+export default () => (
+  <>
+    <IconRegistry icons={EvaIconsPack} />
     <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="AdminTabBar">
-          {/* <Stack.Screen name="Login" component={LogIn} />
-        <Stack.Screen name="SignUp" component={SignUp} /> */}
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="SignUp" component={SignupScreen} />
           <Stack.Screen
             name="AdminTabBar"
             component={AdminTabBar}
@@ -70,5 +79,5 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>
-  );
-}
+  </>
+);
