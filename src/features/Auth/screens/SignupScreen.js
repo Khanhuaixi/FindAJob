@@ -1,22 +1,9 @@
+import { Button, Input, Layout, Text } from "@ui-kitten/components";
 import React, { useState } from "react";
-import {
-  Image,
-  TextInput,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
-import { ROLE_ADMIN, ROLE_CUSTOMER } from "../../../../constants/constants";
-import {
-  Icon,
-  IconElement,
-  Input,
-  Text,
-  Button,
-  Layout,
-} from "@ui-kitten/components";
+import { ROLE_CUSTOMER } from "../../../../constants/constants";
 
 export default function SignupScreen({ navigation }) {
   const role = ROLE_CUSTOMER;

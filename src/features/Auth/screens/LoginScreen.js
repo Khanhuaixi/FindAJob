@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
+import React, { useState } from "react";
 import { Image, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
 import {
   ROLE_ADMIN,
-  ROLE_CUSTOMER,
+  ROLE_APPLICANT,
   ROLE_EMPLOYER,
 } from "../../../../constants/constants";
-import { Icon, Input, Text, Button, Layout } from "@ui-kitten/components";
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -33,7 +33,7 @@ function LoginScreen({ navigation }) {
               alert("User does not exist anymore.");
               return;
             }
-            if (firestoreDocument.data().role === ROLE.APPLICANT) {
+            if (firestoreDocument.data().role === ROLE_APPLICANT) {
               navigation.reset({
                 index: 0,
                 routes: [{ name: "AdminTabBar" }],
