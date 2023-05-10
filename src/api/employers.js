@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL } from "../../constants";
+import { URL } from "../../constants/constants";
 
 export async function createEmployer(
   employerId,
@@ -11,7 +11,7 @@ export async function createEmployer(
   fetch(URL + "/api/Employers", {
     method: "POST",
     body: JSON.stringify({
-      EmployerId: employerId,
+      // EmployerId: employerId,
       CompanyName: companyName,
       CompanyType: companyType,
       Star: star,
@@ -21,11 +21,7 @@ export async function createEmployer(
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
     },
-  })
-    .then((e) => {
-      console.log(e);
-    })
-    .catch((e) => console.log(e));
+  }).catch((e) => console.log(e));
 }
 
 export async function getEmployers() {
@@ -38,9 +34,12 @@ export async function getEmployers() {
 
 export async function getEmployerById(id) {
   let employers = {};
-  const res = await axios.get(URL + "/api/Employers/" + id).then((response) => {
-    employers = response.data;
-  });
+  const res = await axios
+    .get(URL + "/api/Employers/" + id)
+    .then((response) => {
+      employers = response.data;
+    })
+    .catch((e) => console.log(e));
   return employers;
 }
 
@@ -51,7 +50,7 @@ export async function updateEmployer(
   star,
   companyOverview
 ) {
-  fetch(URL + "/api/Employers/" + id, {
+  fetch(URL + "/api/Employers/" + employerId, {
     method: "PUT",
     body: JSON.stringify({
       EmployerId: employerId,
@@ -64,15 +63,11 @@ export async function updateEmployer(
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
     },
-  })
-    .then((e) => {
-      console.log(e);
-    })
-    .catch((e) => console.log(e));
+  }).catch((e) => console.log(e));
 }
 
 export async function deleteEmployer(id) {
   fetch(URL + "/api/Employers/" + id, {
     method: "DELETE",
-  }).then((res) => console.log(res));
+  }).catch((e) => console.log(e));
 }
