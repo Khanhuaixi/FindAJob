@@ -2,7 +2,6 @@ import axios from "axios";
 import { URL } from "../../constants/constants";
 
 export async function createJob(
-  jobId,
   jobName,
   employerId,
   jobDescription,
@@ -17,7 +16,6 @@ export async function createJob(
   fetch(URL + "/api/Jobs", {
     method: "POST",
     body: JSON.stringify({
-      JobId: jobId,
       JobName: jobName,
       EmployerId: employerId,
       JobDescription: jobDescription,
@@ -33,11 +31,7 @@ export async function createJob(
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
     },
-  })
-    .then((e) => {
-      console.log(e);
-    })
-    .catch((e) => console.log(e));
+  }).catch((e) => console.log(e));
 }
 
 export async function getJobs() {
