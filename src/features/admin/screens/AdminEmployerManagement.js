@@ -15,21 +15,46 @@ function AdminEmployerManagement({ route, navigation }) {
   const [isDeleteModalVisible, setDeleteModalVisible] = React.useState(false);
   const [isEditModalVisible, setEditModalVisible] = React.useState(false);
 
-  const [newEmployerId, setNewEmployerIdValue] = React.useState(1);
   const [newCompanyName, setNewCompanyNameValue] = React.useState("");
   const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
-  const [newStar, setNewStarValue] = React.useState(1);
+  const [newStar, setNewStarValue] = React.useState("");
   const [newCompanyOverview, setNewCompanyOverviewValue] = React.useState("");
+  const [status, setStatus] = useState("basic");
+  const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     if (employer !== "undefined") {
       setNewCompanyNameValue(employer.companyName);
-      setNewEmployerIdValue(employer.employerId);
       setNewCompanyTypeValue(employer.companyType);
       setNewStarValue(employer.star);
       setNewCompanyOverviewValue(employer.companyOverview);
     }
   }, [isEditModalVisible]);
+
+  useEffect(() => {
+    if (status === "danger") {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(
+        !newCompanyName || !newCompanyType || !newStar || !newCompanyOverview
+      );
+    }
+  }, [newCompanyName, newCompanyType, newStar, newCompanyOverview, status]);
+
+  useEffect(() => {
+    if (
+      newStar != "" &&
+      newStar != "1" &&
+      newStar != "2" &&
+      newStar != "3" &&
+      newStar != "4" &&
+      newStar != "5"
+    ) {
+      setStatus("danger");
+    } else {
+      setStatus("basic");
+    }
+  }, [newStar]);
 
   async function handleDeleteEmployer(i) {
     await deleteEmployer(i).then(() => {
@@ -40,28 +65,27 @@ function AdminEmployerManagement({ route, navigation }) {
 
   async function handleUpdateEmployer() {
     await updateEmployer(
-      newEmployerId,
+      employer.employerId,
       newCompanyName,
       newCompanyType,
       newStar,
       newCompanyOverview
     ).then(() => {
-      //update ui
       employer.companyName = newCompanyName;
-      employer.employerId = newEmployerId;
       employer.companyType = newCompanyType;
       employer.star = newStar;
       employer.companyOverview = newCompanyOverview;
 
       setEditModalVisible(false);
-      navigation.goBack();
     });
   }
 
   const Header = (props) => (
     <View {...props}>
-      <Text category="h6">{employer.companyName}</Text>
-      <Text category="s1">{employer.employerId}</Text>
+      <Text category="h6">
+        {employer.companyName}{" "}
+        <Text appearance="hint">Employer Id: {employer.employerId}</Text>
+      </Text>
     </View>
   );
 
@@ -129,36 +153,43 @@ function AdminEmployerManagement({ route, navigation }) {
       </Modal>
 
       <Modal
+        style={styles.modal}
         visible={isEditModalVisible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setEditModalVisible(false)}
       >
         <Card disabled={true}>
           <Input
+            style={styles.input}
             value={newCompanyName}
             label="Company Name"
             placeholder="Company Name"
             onChangeText={(nextValue) => setNewCompanyNameValue(nextValue)}
           />
           <Input
-            value={newEmployerId.toString()}
+            style={styles.input}
+            value={employer.employerId.toString()}
             label="Employer Id"
-            placeholder="Employer Id"
-            onChangeText={(nextValue) => setNewEmployerIdValue(nextValue)}
+            disabled
           />
           <Input
+            style={styles.input}
             value={newCompanyType}
             label="Company Type"
             placeholder="Company Type"
             onChangeText={(nextValue) => setNewCompanyTypeValue(nextValue)}
           />
           <Input
+            style={styles.input}
+            status={status}
             value={newStar.toString()}
             label="Rating"
             placeholder="Number of Star"
             onChangeText={(nextValue) => setNewStarValue(nextValue)}
+            caption="Only accepts rating from 1 to 5"
           />
           <Input
+            style={styles.input}
             value={newCompanyOverview}
             label="Company Overview"
             placeholder="Company Overview"
@@ -168,7 +199,11 @@ function AdminEmployerManagement({ route, navigation }) {
             <Button status="basic" onPress={() => setEditModalVisible(false)}>
               CANCEL
             </Button>
-            <Button status="primary" onPress={() => handleUpdateEmployer()}>
+            <Button
+              status="primary"
+              onPress={() => handleUpdateEmployer()}
+              disabled={isDisabled}
+            >
               SAVE
             </Button>
           </View>
@@ -182,6 +217,14 @@ const styles = StyleSheet.create({
   card: {
     margin: 5,
   },
+  cardTop: {
+    marginHorizontal: 20,
+    marginVertical: 5,
+    width: "auto",
+  },
+  textCardTop: {
+    alignSelf: "center",
+  },
   footerContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
@@ -194,6 +237,12 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  input: {
+    marginBottom: 15,
+  },
+  modal: {
+    width: "80%",
   },
 });
 

@@ -34,10 +34,11 @@ const theme = {
 const Stack = createNativeStackNavigator();
 
 function getAdminTitle(route) {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? "Admin";
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "AdminTabBar";
   switch (routeName) {
     case "AdminJobList":
       return "Job List";
+    case "AdminTabBar":
     case "AdminEmployerList":
       return "Employer List";
     case "AdminMemberList":

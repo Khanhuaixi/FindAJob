@@ -17,37 +17,66 @@ function AdminEmployerList({ navigation }) {
   const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
 
   const [employers, setEmployers] = useState([]);
-  const [newEmployerId, setNewEmployerIdValue] = React.useState("");
   const [newCompanyName, setNewCompanyNameValue] = React.useState("");
   const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
   const [newStar, setNewStarValue] = React.useState("");
   const [newCompanyOverview, setNewCompanyOverviewValue] = React.useState("");
+  const [status, setStatus] = useState("basic");
+  const [isDisabled, setIsDisabled] = useState(true);
 
-  // useEffect(async () => {
-  //   let mounted = true;
-  //   getEmployers().then((item) => {
-  //     if (mounted) {
-  //       setEmployers(item);
-  //     }
-  //   });
-
-  //   return () => (mounted = false);
-  // }, []);
+  async function fetchData() {
+    const response = await getEmployers();
+    setEmployers(response);
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      // You can await here
-      const response = await getEmployers();
-      // ...
-      setEmployers(response);
-    }
     fetchData();
-  }, [isFocused]); // Or [] if effect doesn't need props or state
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (status === "danger") {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(
+        !newCompanyName || !newCompanyType || !newStar || !newCompanyOverview
+      );
+    }
+  }, [newCompanyName, newCompanyType, newStar, newCompanyOverview, status]);
+
+  useEffect(() => {
+    if (
+      newStar !== "" &&
+      newStar !== "1" &&
+      newStar !== "2" &&
+      newStar !== "3" &&
+      newStar !== "4" &&
+      newStar !== "5"
+    ) {
+      setStatus("danger");
+    } else {
+      setStatus("basic");
+    }
+  }, [newStar]);
+
+  function clearInputs() {
+    setNewCompanyNameValue("");
+    setNewCompanyTypeValue("");
+    setNewStarValue("");
+    setNewCompanyOverviewValue("");
+    setStatus("basic");
+    setIsDisabled(true);
+  }
+
+  function handleCancel() {
+    clearInputs();
+    setCreateModalVisible(false);
+  }
 
   const renderItemHeader = (headerProps, info) => (
     <View {...headerProps}>
       <Text category="h6">
-        {info.item.companyName} {info.index + 1}
+        {info.item.companyName}{" "}
+        <Text appearance="hint">Employer Id: {info.item.employerId}</Text>
       </Text>
     </View>
   );
@@ -83,82 +112,76 @@ function AdminEmployerList({ navigation }) {
 
   async function handleCreateEmployer() {
     await createEmployer(
-      newEmployerId,
       newCompanyName,
       newCompanyType,
       newStar,
       newCompanyOverview
     ).then(() => {
-      const newEmployer = {
-        employerId: newEmployerId,
-        companyName: newCompanyName,
-        companyType: newCompanyType,
-        star: newStar,
-        companyOverview: newCompanyOverview,
-      };
-      //update ui
-      employers.push(newEmployer);
-      //load employers from backend again
-      async function fetchData() {
-        // You can await here
-        const response = await getEmployers();
-        // ...
-        setEmployers(response);
-      }
-      fetchData();
-
+      clearInputs();
       setCreateModalVisible(false);
+      fetchData();
     });
   }
 
   return (
     <Layout style={{ flex: 1, alignItems: "stretch" }}>
+      <Card style={styles.cardTop} status="info">
+        <Text category="h5" style={styles.textCardTop}>
+          Total Employers: {employers.length}
+        </Text>
+      </Card>
+
       <Button style={styles.button} onPress={() => setCreateModalVisible(true)}>
         Add New Employer
       </Button>
       <List data={employers} renderItem={renderItem} />
 
       <Modal
+        style={styles.modal}
         visible={isCreateModalVisible}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setCreateModalVisible(false)}
       >
         <Card disabled={true}>
           <Input
+            style={styles.input}
             value={newCompanyName}
             label="Company Name"
             placeholder="Company Name"
             onChangeText={(nextValue) => setNewCompanyNameValue(nextValue)}
           />
           <Input
-            value={newEmployerId}
-            label="Employer Id"
-            placeholder="Employer Id"
-            onChangeText={(nextValue) => setNewEmployerIdValue(nextValue)}
-          />
-          <Input
+            style={styles.input}
             value={newCompanyType}
             label="Company Type"
             placeholder="Company Type"
             onChangeText={(nextValue) => setNewCompanyTypeValue(nextValue)}
           />
           <Input
+            style={styles.input}
+            status={status}
             value={newStar}
             label="Rating"
             placeholder="Number of Star"
             onChangeText={(nextValue) => setNewStarValue(nextValue)}
+            caption="Only accepts rating from 1 to 5"
           />
           <Input
+            style={styles.input}
             value={newCompanyOverview}
             label="Company Overview"
             placeholder="Company Overview"
             onChangeText={(nextValue) => setNewCompanyOverviewValue(nextValue)}
           />
           <View flexDirection="row" columnGap="5" alignSelf="flex-end">
-            <Button status="basic" onPress={() => setCreateModalVisible(false)}>
+            <Button status="basic" onPress={() => handleCancel()}>
               CANCEL
             </Button>
-            <Button status="primary" onPress={() => handleCreateEmployer()}>
+            <Button
+              status="primary"
+              onPress={() => handleCreateEmployer()}
+              disabled={isDisabled}
+            >
               SAVE
             </Button>
           </View>
@@ -177,12 +200,26 @@ const styles = StyleSheet.create({
     margin: 5,
     width: "auto",
   },
+  cardTop: {
+    marginHorizontal: 20,
+    marginVertical: 5,
+    width: "auto",
+  },
+  textCardTop: {
+    alignSelf: "center",
+  },
   button: {
     margin: 5,
     width: "auto",
   },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  input: {
+    marginBottom: 15,
+  },
+  modal: {
+    width: "80%",
   },
 });
 

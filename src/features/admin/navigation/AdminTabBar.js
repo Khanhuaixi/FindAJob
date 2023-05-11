@@ -9,7 +9,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 export function AdminTabBar() {
   return (
-    <Tab.Navigator initialRouteName="AdminEmployerList">
+    <Tab.Navigator>
       <Tab.Screen
         name="AdminEmployerList"
         component={AdminEmployerList}

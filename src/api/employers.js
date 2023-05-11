@@ -2,7 +2,6 @@ import axios from "axios";
 import { URL } from "../../constants/constants";
 
 export async function createEmployer(
-  employerId,
   companyName,
   companyType,
   star,
@@ -11,7 +10,6 @@ export async function createEmployer(
   fetch(URL + "/api/Employers", {
     method: "POST",
     body: JSON.stringify({
-      // EmployerId: employerId,
       CompanyName: companyName,
       CompanyType: companyType,
       Star: star,
