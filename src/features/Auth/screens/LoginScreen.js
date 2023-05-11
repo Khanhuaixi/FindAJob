@@ -36,7 +36,7 @@ function LoginScreen({ navigation }) {
             if (firestoreDocument.data().role === ROLE_APPLICANT) {
               navigation.reset({
                 index: 0,
-                routes: [{ name: "AdminTabBar" }],
+                routes: [{ name: "ApplicantTabBar" }],
               });
               return;
             } else if (firestoreDocument.data().role === ROLE_EMPLOYER) {
