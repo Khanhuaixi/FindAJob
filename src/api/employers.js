@@ -31,14 +31,14 @@ export async function getEmployers() {
 }
 
 export async function getEmployerById(id) {
-  let employers = {};
+  let employer = {};
   const res = await axios
     .get(URL + "/api/Employers/" + id)
     .then((response) => {
-      employers = response.data;
+      employer = response.data;
     })
     .catch((e) => console.log(e));
-  return employers;
+  return employer;
 }
 
 export async function updateEmployer(

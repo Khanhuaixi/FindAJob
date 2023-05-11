@@ -43,11 +43,11 @@ export async function getJobs() {
 }
 
 export async function getJobById(id) {
-  let jobs = {};
+  let job = {};
   const res = await axios.get(URL + "/api/Jobs/" + id).then((response) => {
-    jobs = response.data;
+    job = response.data;
   });
-  return jobs;
+  return job;
 }
 
 export async function updateJob(

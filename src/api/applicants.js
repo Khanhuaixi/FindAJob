@@ -8,6 +8,7 @@ export async function createApplicant(
   contactNumber,
   applicationList,
   expectedSalary,
+  experience,
   education,
   skill,
   languages,
@@ -23,6 +24,7 @@ export async function createApplicant(
       ContactNumber: contactNumber,
       ApplicationList: applicationList,
       ExpectedSalary: expectedSalary,
+      Experience: experience,
       Education: education,
       Skill: skill,
       Languages: languages,
@@ -38,38 +40,53 @@ export async function createApplicant(
 
 export async function getApplicants() {
   let applicants = {};
-  const res = await axios.get(URL + "/api/Employers").then((response) => {
-    employers = response.data;
+  const res = await axios.get(URL + "/api/Applicants").then((response) => {
+    applicants = response.data;
   });
-  return employers;
+  return applicants;
 }
 
 export async function getApplicantById(id) {
-  let employers = {};
+  let applicant = {};
   const res = await axios
     .get(URL + "/api/Applicants/" + id)
     .then((response) => {
-      employers = response.data;
+      applicant = response.data;
     })
     .catch((e) => console.log(e));
-  return employers;
+  return applicant;
 }
 
-export async function updateEmployer(
-  employerId,
-  companyName,
-  companyType,
-  star,
-  companyOverview
+export async function updateApplicant(
+  applicantId,
+  firstName,
+  lastName,
+  email,
+  contactNumber,
+  applicationList,
+  expectedSalary,
+  education,
+  skill,
+  languages,
+  age,
+  address
 ) {
-  fetch(URL + "/api/Employers/" + employerId, {
+  fetch(URL + "/api/Applicants/" + applicantId, {
     method: "PUT",
     body: JSON.stringify({
-      EmployerId: employerId,
-      CompanyName: companyName,
-      CompanyType: companyType,
-      Star: star,
-      CompanyOverview: companyOverview,
+      ApplicantId: applicantId,
+      FirstName: firstName,
+      LastName: lastName,
+      Email: email,
+      ContactNumber: contactNumber,
+      ApplicationList: applicationList,
+      ExpectedSalary: expectedSalary,
+      Experience: experience,
+      Education: education,
+      Skill: skill,
+      Languages: languages,
+      Age: age,
+      Address: address,
     }),
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -78,8 +95,8 @@ export async function updateEmployer(
   }).catch((e) => console.log(e));
 }
 
-export async function deleteEmployer(id) {
-  fetch(URL + "/api/Employers/" + id, {
+export async function deleteApplicant(id) {
+  fetch(URL + "/api/Applicants/" + id, {
     method: "DELETE",
   }).catch((e) => console.log(e));
 }
