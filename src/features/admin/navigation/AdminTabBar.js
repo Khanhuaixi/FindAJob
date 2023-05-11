@@ -11,19 +11,19 @@ export function AdminTabBar() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="AdminJobList"
-        component={AdminJobList}
-        options={{
-          tabBarLabel: "Jobs",
-          tabBarIcon: () => <Ionicons name="briefcase-outline" size={20} />,
-        }}
-      />
-      <Tab.Screen
         name="AdminEmployerList"
         component={AdminEmployerList}
         options={{
           tabBarLabel: "Employers",
           tabBarIcon: () => <Ionicons name="business-outline" size={20} />,
+        }}
+      />
+      <Tab.Screen
+        name="AdminJobList"
+        component={AdminJobList}
+        options={{
+          tabBarLabel: "Jobs",
+          tabBarIcon: () => <Ionicons name="briefcase-outline" size={20} />,
         }}
       />
       <Tab.Screen
