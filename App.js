@@ -20,6 +20,7 @@ import AdminJobManagement from "./src/features/admin/screens/AdminJobManagement"
 import LoginScreen from "./src/features/Auth/screens/LoginScreen";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import SignupScreen from "./src/features/Auth/screens/SignupScreen";
+import AdminEmployerManagement from "./src/features/admin/screens/AdminEmployerManagement";
 
 const theme = {
   ...DefaultTheme,
@@ -33,10 +34,11 @@ const theme = {
 const Stack = createNativeStackNavigator();
 
 function getAdminTitle(route) {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? "Admin";
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "AdminTabBar";
   switch (routeName) {
     case "AdminJobList":
       return "Job List";
+    case "AdminTabBar":
     case "AdminEmployerList":
       return "Employer List";
     case "AdminMemberList":
@@ -86,6 +88,13 @@ export default () => (
             component={AdminJobManagement}
             options={() => ({
               headerTitle: "Job Detail",
+            })}
+          />
+          <Stack.Screen
+            name="AdminEmployerManagement"
+            component={AdminEmployerManagement}
+            options={() => ({
+              headerTitle: "Employer Detail",
             })}
           />
         </Stack.Navigator>

@@ -8,6 +8,7 @@ import {
 } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
+import { deleteJob } from "../../../api/jobs";
 
 function AdminJobManagement({ route, navigation }) {
   const { job } = route.params;
@@ -51,6 +52,11 @@ function AdminJobManagement({ route, navigation }) {
       setNewJobSpecializationValue(job.jobSpecialization);
     }
   }, [isEditModalVisible]);
+
+  async function handleDeleteJob(i) {
+    await deleteJob(i);
+    console.log();
+  }
 
   const Header = (props) => (
     <View {...props}>
@@ -153,7 +159,7 @@ function AdminJobManagement({ route, navigation }) {
         onBackdropPress={() => setDeleteModalVisible(false)}
       >
         <Card disabled={true}>
-          <Text>Are you sure you want to delete this modal?</Text>
+          <Text>Are you sure you want to delete this?</Text>
           <Text appearance="hint">This cannot be undone.</Text>
           <View flexDirection="row" columnGap="5" alignSelf="flex-end">
             <Button status="basic" onPress={() => setDeleteModalVisible(false)}>
