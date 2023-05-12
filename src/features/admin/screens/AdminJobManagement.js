@@ -99,6 +99,7 @@ function AdminJobManagement({ route, navigation }) {
         const applicants = await Promise.all(applicantPromises);
         setApplicants(applicants);
       };
+
       fetchApplicants();
     }
   }, [job]);
@@ -238,12 +239,12 @@ function AdminJobManagement({ route, navigation }) {
           {job.applicantList === "" ? "No Applicants Yet" : ""}
           {"\n"}
         </Text>
-        {/* <List
+        <List
           style={styles.list}
           data={applicants}
           ItemSeparatorComponent={Divider}
           renderItem={renderItem}
-        /> */}
+        />
       </Card>
       <Modal
         style={styles.modal}
@@ -355,13 +356,21 @@ function AdminJobManagement({ route, navigation }) {
               {job.applicantList === "" ? "No Applicants Yet" : ""}
               {"\n"}
             </Text>
+            {/* <List
+              style={styles.list}
+              data={applicants}
+              ItemSeparatorComponent={Divider}
+              renderItem={renderItem}
+            /> */}
             <List
               style={styles.list}
               data={applicants}
               ItemSeparatorComponent={Divider}
               renderItem={renderItem}
             />
-
+            {applicants.map((item, index) => (
+              <Text key={index}>{item.applicantId}</Text>
+            ))}
             <View flexDirection="row" columnGap="5" alignSelf="flex-end">
               <Button status="basic" onPress={() => setEditModalVisible(false)}>
                 CANCEL

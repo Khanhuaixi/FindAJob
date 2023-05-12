@@ -1,25 +1,11 @@
 import { useIsFocused } from "@react-navigation/native";
-import {
-  IndexPath,
-  Button,
-  Card,
-  Input,
-  Layout,
-  List,
-  Modal,
-  Text,
-  Select,
-  SelectItem,
-} from "@ui-kitten/components";
+import { Card, Layout, List, Text } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
-import { createJob, getJobs } from "../../../api/jobs";
-import { getEmployers } from "../../../api/employers";
+import { StyleSheet, View } from "react-native";
 import { getApplicants } from "../../../api/applicants";
 
 function AdminApplicantList({ navigation }) {
   const isFocused = useIsFocused();
-  const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
 
   const [applicants, setApplicants] = useState([]);
 
@@ -45,8 +31,8 @@ function AdminApplicantList({ navigation }) {
   const renderItemFooter = (footerProps, info) => (
     <Text {...footerProps}>
       <Text>
-        Year Of Experience Needed:{"\n"}
-        {info.item.yearOfExperience}
+        Contact Number:{"\n"}
+        {info.item.contactNumber}
         {"\n"}
         {"\n"}
       </Text>
@@ -70,29 +56,39 @@ function AdminApplicantList({ navigation }) {
       header={(headerProps) => renderItemHeader(headerProps, info)}
       footer={(footerProps) => renderItemFooter(footerProps, info)}
       onPress={() => {
-        navigation.navigate("AdminJobManagement", {
-          job: info.item,
+        navigation.navigate("AdminApplicantManagement", {
+          applicant: info.item,
         });
       }}
     >
       <Text category="s1">
-        Job Type: {"\n"}
-        {info.item.jobType}
+        Email: {"\n"}
+        {info.item.email}
         {"\n"}
       </Text>
       <Text>
-        Job Specialization:{"\n"}
-        {info.item.jobSpecialization}
+        Education:{"\n"}
+        {info.item.education}
         {"\n"}
       </Text>
       <Text>
-        Salary Range:{"\n"}
-        RM{info.item.salaryRange}
+        Skill:{"\n"}
+        RM{info.item.skill}
         {"\n"}
       </Text>
       <Text>
-        Job Description:{"\n"}
-        {info.item.jobDescription}
+        Languages:{"\n"}
+        {info.item.languages}
+        {"\n"}
+      </Text>
+      <Text>
+        Age:{"\n"}
+        {info.item.age}
+        {"\n"}
+      </Text>
+      <Text>
+        Address:{"\n"}
+        {info.item.address}
         {"\n"}
       </Text>
     </Card>
@@ -110,5 +106,31 @@ function AdminApplicantList({ navigation }) {
     </Layout>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    maxHeight: 180,
+    flex: 1,
+  },
+  card: {
+    margin: 5,
+    width: "auto",
+  },
+  cardTop: {
+    marginHorizontal: 20,
+    marginVertical: 5,
+    width: "auto",
+  },
+  textCardTop: {
+    alignSelf: "center",
+  },
+  button: {
+    margin: 5,
+    width: "auto",
+  },
+  input: {
+    marginBottom: 15,
+  },
+});
 
 export default AdminApplicantList;
