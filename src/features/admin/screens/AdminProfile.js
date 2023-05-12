@@ -7,6 +7,8 @@ function AdminProfile({ navigation }) {
   const [user, setUser] = useState("");
   const [oldName, setOldName] = useState("");
   const [fullName, setName] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const db = firebase.firestore();
   const userId = firebase.auth().currentUser.uid;
@@ -85,6 +87,8 @@ function AdminProfile({ navigation }) {
       >
         Log Out
       </Button>
+      {error && <Text style={styles.error}>Error: {error}</Text>}
+      {success && <Text style={styles.success}>{success}</Text>}
     </Layout>
   );
 }
@@ -100,5 +104,11 @@ const styles = StyleSheet.create({
   },
   text: {
     margin: 10,
+  },
+  error: {
+    color: "red",
+  },
+  success: {
+    color: "green",
   },
 });
