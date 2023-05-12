@@ -139,7 +139,7 @@ function AdminEmployerList({ navigation }) {
         style={styles.modal}
         visible={isCreateModalVisible}
         backdropStyle={styles.backdrop}
-        onBackdropPress={() => setCreateModalVisible(false)}
+        onBackdropPress={() => handleCancel()}
       >
         <Card disabled={true}>
           <Input

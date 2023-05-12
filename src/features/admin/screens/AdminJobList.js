@@ -86,6 +86,7 @@ function AdminJobList({ navigation }) {
   function clearInputs() {
     setNewJobNameValue("");
     setNewEmployerIdValue("");
+    setSelectedIndex(new IndexPath(0));
     setNewJobDescriptionValue("");
     setNewCareerLevelValue("");
     setNewYearOfExperienceValue("");
@@ -205,7 +206,7 @@ function AdminJobList({ navigation }) {
         style={styles.modal}
         visible={isCreateModalVisible}
         backdropStyle={styles.backdrop}
-        onBackdropPress={() => setCreateModalVisible(false)}
+        onBackdropPress={() => handleCancel()}
       >
         <Card disabled={true}>
           <ScrollView>
