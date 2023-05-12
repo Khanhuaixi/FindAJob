@@ -5,6 +5,7 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AdminTabBar } from "./src/features/admin/navigation/AdminTabBar";
+import { EmployerTabBar } from "./src/features/employer/navigation/EmployerTabBar";
 import AdminJobList from "./src/features/admin/screens/AdminJobList";
 import AdminEmployerList from "./src/features/admin/screens/AdminEmployerList";
 import AdminMemberList from "./src/features/admin/screens/AdminMemberList";
@@ -21,6 +22,7 @@ import LoginScreen from "./src/features/Auth/screens/LoginScreen";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import SignupScreen from "./src/features/Auth/screens/SignupScreen";
 import AdminEmployerManagement from "./src/features/admin/screens/AdminEmployerManagement";
+import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
 
 const theme = {
   ...DefaultTheme,
@@ -45,6 +47,16 @@ function getAdminTitle(route) {
       return "Member List";
     case "AdminProfile":
       return "Profile";
+  }
+}
+
+function getEmployerTitle(route) {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "EmployerTabBar";
+  switch (routeName) {
+    case "Employer Job List":
+      return "Job List"
+    case "Employer Profile":
+      return "Profile";   
   }
 }
 
@@ -95,6 +107,27 @@ export default () => (
             component={AdminEmployerManagement}
             options={() => ({
               headerTitle: "Employer Detail",
+            })}
+          />
+          <Stack.Screen
+            name="EmployerTabBar"
+            component={EmployerTabBar}
+            options={({ route }) => ({
+              headerTitle: getEmployerTitle(route),
+            })}
+          />
+          <Stack.Screen
+            name="EmployerJobList"
+            component={EmployerJobList}
+            options={() => ({
+              headerTitle: "Employer Job List",
+            })}
+          />
+          <Stack.Screen
+            name="EmployerProfile"
+            component={EmployerProfile}
+            options={() => ({
+              headerTitle: "Employer Profile",
             })}
           />
         </Stack.Navigator>
