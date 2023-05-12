@@ -253,8 +253,10 @@ function AdminJobManagement({ route, navigation }) {
         onBackdropPress={() => setDeleteModalVisible(false)}
       >
         <Card disabled={true}>
-          <Text>Are you sure you want to delete this?</Text>
-          <Text appearance="hint">This cannot be undone.</Text>
+          <Text style={styles.text}>Are you sure you want to delete this?</Text>
+          <Text style={styles.text} appearance="hint">
+            This cannot be undone.
+          </Text>
           <View flexDirection="row" columnGap="5" alignSelf="flex-end">
             <Button status="basic" onPress={() => setDeleteModalVisible(false)}>
               CANCEL
@@ -349,7 +351,7 @@ function AdminJobManagement({ route, navigation }) {
               placeholder="Salary Range"
               onChangeText={(nextValue) => setNewSalaryRangeValue(nextValue)}
             />
-            <Text style={styles.text} category="label" appearance="hint">
+            <Text category="label" appearance="hint">
               Applicant List
             </Text>
             <Text>
@@ -433,6 +435,9 @@ const styles = StyleSheet.create({
     margin: 5,
     marginBottom: 15,
     maxHeight: 100,
+  },
+  text: {
+    margin: 10,
   },
 });
 

@@ -129,8 +129,10 @@ function AdminEmployerManagement({ route, navigation }) {
         onBackdropPress={() => setDeleteModalVisible(false)}
       >
         <Card disabled={true}>
-          <Text>Are you sure you want to delete this?</Text>
-          <Text appearance="hint">This cannot be undone.</Text>
+          <Text style={styles.text}>Are you sure you want to delete this?</Text>
+          <Text style={styles.text} appearance="hint">
+            This cannot be undone.
+          </Text>
           <View flexDirection="row" columnGap="5" alignSelf="flex-end">
             <Button status="basic" onPress={() => setDeleteModalVisible(false)}>
               CANCEL
@@ -233,6 +235,9 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: "80%",
+  },
+  text: {
+    margin: 10,
   },
 });
 
