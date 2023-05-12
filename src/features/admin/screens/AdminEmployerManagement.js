@@ -1,13 +1,6 @@
-import {
-  Layout,
-  Text,
-  Card,
-  Button,
-  Modal,
-  Input,
-} from "@ui-kitten/components";
+import { Button, Card, Input, Modal, Text } from "@ui-kitten/components";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import React, { useState, useEffect, useRef } from "react";
 import { deleteEmployer, updateEmployer } from "../../../api/employers";
 
 function AdminEmployerManagement({ route, navigation }) {

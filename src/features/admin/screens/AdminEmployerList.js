@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Pressable } from "react-native";
-import { createEmployer, getEmployers } from "../../../api/employers";
+import { useIsFocused } from "@react-navigation/native";
 import {
+  Button,
+  Card,
+  Input,
   Layout,
   List,
-  Text,
-  Card,
-  Button,
   Modal,
-  Input,
+  Text,
 } from "@ui-kitten/components";
-import { useIsFocused } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { createEmployer, getEmployers } from "../../../api/employers";
 
 function AdminEmployerList({ navigation }) {
   const isFocused = useIsFocused();
@@ -94,12 +94,11 @@ function AdminEmployerList({ navigation }) {
       onPress={() => {
         navigation.navigate("AdminEmployerManagement", {
           employer: info.item,
-          action: "Update",
         });
       }}
     >
       <Text category="s1">
-        Company Type: {"\n"}
+        Company Type:{"\n"}
         {info.item.companyType}
         {"\n"}
       </Text>
@@ -165,6 +164,7 @@ function AdminEmployerList({ navigation }) {
             placeholder="Number of Star"
             onChangeText={(nextValue) => setNewStarValue(nextValue)}
             caption="Only accepts rating from 1 to 5"
+            keyboardType="number-pad"
           />
           <Input
             style={styles.input}
