@@ -1,27 +1,25 @@
 import "react-native-gesture-handler";
 
-import React from "react";
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AdminTabBar } from "./src/features/admin/navigation/AdminTabBar";
-import { EmployerTabBar } from "./src/features/employer/navigation/EmployerTabBar";
-import AdminJobList from "./src/features/admin/screens/AdminJobList";
-import AdminEmployerList from "./src/features/admin/screens/AdminEmployerList";
-import AdminMemberList from "./src/features/admin/screens/AdminMemberList";
-import AdminProfile from "./src/features/admin/screens/AdminProfile";
 import * as eva from "@eva-design/eva";
 import {
-  ApplicationProvider,
-  Layout,
-  Text,
-  IconRegistry,
-} from "@ui-kitten/components";
-import AdminJobManagement from "./src/features/admin/screens/AdminJobManagement";
-import LoginScreen from "./src/features/Auth/screens/LoginScreen";
+  DefaultTheme,
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import React from "react";
+import LoginScreen from "./src/features/Auth/screens/LoginScreen";
 import SignupScreen from "./src/features/Auth/screens/SignupScreen";
+import { AdminTabBar } from "./src/features/admin/navigation/AdminTabBar";
+import AdminApplicantList from "./src/features/admin/screens/AdminApplicantList";
+import AdminEmployerList from "./src/features/admin/screens/AdminEmployerList";
 import AdminEmployerManagement from "./src/features/admin/screens/AdminEmployerManagement";
+import AdminJobList from "./src/features/admin/screens/AdminJobList";
+import AdminJobManagement from "./src/features/admin/screens/AdminJobManagement";
+import AdminProfile from "./src/features/admin/screens/AdminProfile";
+import { EmployerTabBar } from "./src/features/employer/navigation/EmployerTabBar";
 import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
 
 const theme = {
@@ -43,8 +41,8 @@ function getAdminTitle(route) {
     case "AdminTabBar":
     case "AdminEmployerList":
       return "Employer List";
-    case "AdminMemberList":
-      return "Member List";
+    case "AdminApplicantList":
+      return "Applicant List";
     case "AdminProfile":
       return "Profile";
   }
@@ -54,9 +52,9 @@ function getEmployerTitle(route) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? "EmployerTabBar";
   switch (routeName) {
     case "Employer Job List":
-      return "Job List"
+      return "Job List";
     case "Employer Profile":
-      return "Profile";   
+      return "Profile";
   }
 }
 
@@ -92,7 +90,10 @@ export default () => (
             name="AdminEmployerList"
             component={AdminEmployerList}
           />
-          <Stack.Screen name="AdminMemberList" component={AdminMemberList} />
+          <Stack.Screen
+            name="AdminApplicantList"
+            component={AdminApplicantList}
+          />
           <Stack.Screen name="AdminProfile" component={AdminProfile} />
 
           <Stack.Screen
