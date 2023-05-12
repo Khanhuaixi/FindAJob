@@ -215,9 +215,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     width: "auto",
   },
-  textCardTop: {
-    alignSelf: "center",
-  },
   footerContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
