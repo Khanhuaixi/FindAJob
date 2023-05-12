@@ -40,9 +40,12 @@ export async function createApplicant(
 
 export async function getApplicants() {
   let applicants = {};
-  const res = await axios.get(URL + "/api/Applicants").then((response) => {
-    applicants = response.data;
-  });
+  const res = await axios
+    .get(URL + "/api/Applicants")
+    .then((response) => {
+      applicants = response.data;
+    })
+    .catch((e) => console.log(e));
   return applicants;
 }
 

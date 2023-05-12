@@ -36,17 +36,23 @@ export async function createJob(
 
 export async function getJobs() {
   let jobs = {};
-  const res = await axios.get(URL + "/api/Jobs").then((response) => {
-    jobs = response.data;
-  });
+  const res = await axios
+    .get(URL + "/api/Jobs")
+    .then((response) => {
+      jobs = response.data;
+    })
+    .catch((e) => console.log(e));
   return jobs;
 }
 
 export async function getJobById(id) {
   let job = {};
-  const res = await axios.get(URL + "/api/Jobs/" + id).then((response) => {
-    job = response.data;
-  });
+  const res = await axios
+    .get(URL + "/api/Jobs/" + id)
+    .then((response) => {
+      job = response.data;
+    })
+    .catch((e) => console.log(e));
   return job;
 }
 
@@ -63,7 +69,7 @@ export async function updateJob(
   salaryRange,
   applicantList
 ) {
-  fetch(URL + "/api/Jobs/" + id, {
+  fetch(URL + "/api/Jobs/" + jobId, {
     method: "PUT",
     body: JSON.stringify({
       JobId: jobId,
@@ -82,15 +88,11 @@ export async function updateJob(
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
     },
-  })
-    .then((e) => {
-      console.log(e);
-    })
-    .catch((e) => console.log(e));
+  }).catch((e) => console.log(e));
 }
 
 export async function deleteJob(id) {
   fetch(URL + "/api/Jobs/" + id, {
     method: "DELETE",
-  }).then((res) => console.log(res));
+  }).catch((e) => console.log(e));
 }

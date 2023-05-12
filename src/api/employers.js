@@ -24,9 +24,12 @@ export async function createEmployer(
 
 export async function getEmployers() {
   let employers = {};
-  const res = await axios.get(URL + "/api/Employers").then((response) => {
-    employers = response.data;
-  });
+  const res = await axios
+    .get(URL + "/api/Employers")
+    .then((response) => {
+      employers = response.data;
+    })
+    .catch((e) => console.log(e));
   return employers;
 }
 
