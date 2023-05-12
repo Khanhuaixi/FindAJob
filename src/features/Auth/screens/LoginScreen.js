@@ -42,7 +42,7 @@ function LoginScreen({ navigation }) {
             } else if (firestoreDocument.data().role === ROLE_EMPLOYER) {
               navigation.reset({
                 index: 0,
-                routes: [{ name: "AdminTabBar" }],
+                routes: [{ name: "EmployerTabBar" }],
               });
               return;
             } else if (firestoreDocument.data().role === ROLE_ADMIN) {
