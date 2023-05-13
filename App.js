@@ -24,14 +24,6 @@ import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
 import AdminApplicantManagement from "./src/features/admin/screens/AdminApplicantManagement";
 import EmployerJobList from "./src/features/employer/screens/EmployerJobList";
 
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    border: "transparent",
-  },
-};
-
 // const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
 

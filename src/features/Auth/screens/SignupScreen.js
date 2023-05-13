@@ -10,15 +10,6 @@ export default function SignupScreen({ navigation }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
-  const [applicationList, setApplicationList] = useState("");
-  const [expectedSalary, setExpectedSalary] = useState("");
-  const [experience, setExperience] = useState("");
-  const [education, setEducation] = useState("");
-  const [skill, setSkill] = useState("");
-  const [languages, setLanguages] = useState("");
-  const [age, setAge] = useState("");
-  const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
