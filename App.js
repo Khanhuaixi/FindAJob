@@ -23,7 +23,6 @@ import { EmployerTabBar } from "./src/features/employer/navigation/EmployerTabBa
 import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
 import EmployerJobList from "./src/features/employer/screens/EmployerJobList";
 import AdminApplicantManagement from "./src/features/admin/screens/AdminApplicantManagement";
-import EmployerJobList from "./src/features/employer/screens/EmployerJobList";
 
 // const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
