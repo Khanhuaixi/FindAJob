@@ -4,13 +4,24 @@ import { Image, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
 import { ROLE_APPLICANT } from "../../../../constants/constants";
+import { createApplicant } from "../../../api/applicants";
 
 export default function SignupScreen({ navigation }) {
-  const role = ROLE_APPLICANT;
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [applicationList, setApplicationList] = useState("");
+  const [expectedSalary, setExpectedSalary] = useState("");
+  const [experience, setExperience] = useState("");
+  const [education, setEducation] = useState("");
+  const [skill, setSkill] = useState("");
+  const [languages, setLanguages] = useState("");
+  const [age, setAge] = useState("");
+  const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [passwordSecureTextEntry, setPasswordSecureTextEntry] =
     React.useState(true);
   const [confirmPasswordSecureTextEntry, setConfirmPasswordSecureTextEntry] =
@@ -25,6 +36,21 @@ export default function SignupScreen({ navigation }) {
       alert("Passwords don't match.");
       return;
     }
+    await createApplicant(
+      firstName,
+      lastName,
+      email,
+      contactNumber,
+      applicationList,
+      expectedSalary,
+      experience,
+      education,
+      skill,
+      languages,
+      age,
+      address
+    );
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -33,8 +59,7 @@ export default function SignupScreen({ navigation }) {
         const data = {
           id: uid,
           email,
-          fullName,
-          role: role,
+          role: ROLE_APPLICANT,
         };
         const usersRef = firebase.firestore().collection("users");
         usersRef
@@ -89,10 +114,18 @@ export default function SignupScreen({ navigation }) {
         <Text style={styles.title}>Sign Up</Text>
         <Input
           style={styles.input}
-          value={fullName}
-          label="Full Name"
-          placeholder="Enter your full name"
-          onChangeText={(nextValue) => setFullName(nextValue)}
+          value={firstName}
+          label="First Name"
+          placeholder="Enter your first name"
+          onChangeText={(nextValue) => setFirstName(nextValue)}
+          autoCapitalize="none"
+        />
+        <Input
+          style={styles.input}
+          value={lastName}
+          label="Last Name"
+          placeholder="Enter your last name"
+          onChangeText={(nextValue) => setLastName(nextValue)}
           autoCapitalize="none"
         />
         <Input
