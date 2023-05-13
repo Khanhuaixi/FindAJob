@@ -16,13 +16,13 @@ function AdminApplicantList({ navigation }) {
 
   useEffect(() => {
     fetchData();
-    fetchEmployersData();
   }, [isFocused]);
 
   const renderItemHeader = (headerProps, info) => (
     <View {...headerProps}>
       <Text category="h6">
-        {info.item.firstName} {info.item.lastName}{" "}
+        {info.item.firstName ? info.item.firstName : "-"}{" "}
+        {info.item.lastName ? info.item.lastName : "-"}{" "}
         <Text appearance="hint">Applicant Id: {info.item.applicantId}</Text>
       </Text>
     </View>
@@ -32,18 +32,18 @@ function AdminApplicantList({ navigation }) {
     <Text {...footerProps}>
       <Text>
         Contact Number:{"\n"}
-        {info.item.contactNumber}
+        {info.item.contactNumber ? info.item.contactNumber : "-"}
         {"\n"}
         {"\n"}
       </Text>
       <Text>
         Expected Salary:{"\n"}
-        {info.item.expectedSalary}
+        {info.item.expectedSalary ? info.item.expectedSalary : "-"}
         {"\n"}
         {"\n"}
       </Text>
       Experience:{"\n"}
-      {info.item.experience}
+      {info.item.experience ? info.item.experience : "-"}
       {"\n"}
       {"\n"}
     </Text>
@@ -63,32 +63,32 @@ function AdminApplicantList({ navigation }) {
     >
       <Text category="s1">
         Email: {"\n"}
-        {info.item.email}
+        {info.item.email ? info.item.email : "-"}
         {"\n"}
       </Text>
       <Text>
         Education:{"\n"}
-        {info.item.education}
+        {info.item.education ? info.item.education : "-"}
         {"\n"}
       </Text>
       <Text>
         Skill:{"\n"}
-        RM{info.item.skill}
+        RM{info.item.skill ? info.item.skill : "-"}
         {"\n"}
       </Text>
       <Text>
         Languages:{"\n"}
-        {info.item.languages}
+        {info.item.languages ? info.item.languages : "-"}
         {"\n"}
       </Text>
       <Text>
         Age:{"\n"}
-        {info.item.age}
+        {info.item.age ? info.item.age : "-"}
         {"\n"}
       </Text>
       <Text>
         Address:{"\n"}
-        {info.item.address}
+        {info.item.address ? info.item.address : "-"}
         {"\n"}
       </Text>
     </Card>
