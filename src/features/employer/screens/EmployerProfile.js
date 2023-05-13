@@ -1,12 +1,16 @@
-import { Button, Input, Layout, Text } from "@ui-kitten/components";
+import { Button, Input, Layout, Text, Modal, Card } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ScrollView, View } from "react-native";
 import { firebase } from "../../../../config";
 
 function EmployerProfile({ navigation }) {
+  const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
   const [user, setUser] = useState("");
   const [oldName, setOldName] = useState("");
   const [fullName, setName] = useState("");
+  const [newCompanyName, setNewCompanyNameValue] = React.useState("");
+  const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const db = firebase.firestore();
   const userId = firebase.auth().currentUser.uid;
@@ -23,6 +27,18 @@ function EmployerProfile({ navigation }) {
         });
       });
   };
+
+  function handleCancel() {
+    // clearInputs();
+    setCreateModalVisible(false);
+  }
+
+  function clearInputs() {
+    setNewCompanyNameValue("");
+    setNewCompanyTypeValue("");
+    setIsDisabled(true);
+  }
+
 
   const handleSubmit = () => {
     userRef
@@ -70,6 +86,8 @@ function EmployerProfile({ navigation }) {
         autoCapitalize="none"
       />
 
+      
+
       <Button
         style={styles.button}
         disabled={oldName === fullName}
@@ -77,6 +95,48 @@ function EmployerProfile({ navigation }) {
       >
         Save
       </Button>
+
+      <Button style={styles.button} onPress={() => setCreateModalVisible(true)}>
+        Add New Company
+      </Button>
+
+      <Modal
+        style={styles.modal}
+        visible={isCreateModalVisible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => handleCancel()}
+      >
+        <Card disabled={true}>
+          <ScrollView>
+          <Input
+              style={styles.input}
+              value={newCompanyName}
+              label="Company Name"
+              placeholder="Company Name"
+              onChangeText={(nextValue) => setNewCompanyNameValue(nextValue)}
+            />
+            <Input
+              style={styles.input}
+              value={newCompanyType}
+              label="Company Type"
+              placeholder="Company Type"
+              onChangeText={(nextValue) => setNewCompanyTypeValue(nextValue)}
+            />
+            <View flexDirection="row" columnGap="5" alignSelf="flex-end">
+              <Button status="basic" onPress={() => handleCancel()}>
+                CANCEL
+              </Button>
+              <Button
+                status="primary"
+                // onPress={() => handleCreateCompany()}
+                disabled={isDisabled}
+              >
+                SAVE
+              </Button>
+            </View>
+          </ScrollView>
+        </Card>
+      </Modal>
 
       <Button
         style={styles.button}
