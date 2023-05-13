@@ -1,13 +1,11 @@
 import {
   Button,
   Card,
-  Modal,
-  Text,
   Divider,
   List,
   ListItem,
-  Select,
-  SelectItem,
+  Modal,
+  Text,
 } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";

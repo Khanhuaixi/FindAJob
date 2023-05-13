@@ -1,8 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import AdminJobList from "../screens/AdminJobList";
+import AdminApplicantList from "../screens/AdminApplicantList";
 import AdminEmployerList from "../screens/AdminEmployerList";
-import AdminMemberList from "../screens/AdminMemberList";
+import AdminJobList from "../screens/AdminJobList";
 import AdminProfile from "../screens/AdminProfile";
 
 const Tab = createMaterialBottomTabNavigator();
@@ -27,8 +27,8 @@ export function AdminTabBar() {
         }}
       />
       <Tab.Screen
-        name="AdminMemberList"
-        component={AdminMemberList}
+        name="AdminApplicantList"
+        component={AdminApplicantList}
         options={{
           tabBarLabel: "Members",
           tabBarIcon: () => <Ionicons name="person-outline" size={20} />,
