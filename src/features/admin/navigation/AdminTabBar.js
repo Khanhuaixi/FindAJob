@@ -30,7 +30,7 @@ export function AdminTabBar() {
         name="AdminApplicantList"
         component={AdminApplicantList}
         options={{
-          tabBarLabel: "Members",
+          tabBarLabel: "Applicants",
           tabBarIcon: () => <Ionicons name="person-outline" size={20} />,
         }}
       />
