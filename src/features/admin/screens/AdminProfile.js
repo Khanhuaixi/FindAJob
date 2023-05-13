@@ -5,6 +5,7 @@ import { firebase } from "../../../../config";
 
 function AdminProfile({ navigation }) {
   const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
   const [oldName, setOldName] = useState("");
   const [fullName, setName] = useState("");
   const [error, setError] = useState(null);
@@ -50,6 +51,7 @@ function AdminProfile({ navigation }) {
         if (doc.exists) {
           const data = doc.data();
           setUser(data);
+          setEmail(data.email);
           setOldName(data.fullName);
           setName(data.fullName);
         } else {
@@ -62,7 +64,9 @@ function AdminProfile({ navigation }) {
 
   return (
     <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text category="h1">Admin Profile</Text>
+      <Text category="h5">Admin Profile</Text>
+      <Input style={styles.input} value={email} label="Email" disabled />
+
       <Input
         style={styles.input}
         value={fullName}
