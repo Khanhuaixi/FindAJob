@@ -1,6 +1,7 @@
-import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
+import { Button, Icon, Input, Layout, Text} from "@ui-kitten/components";
+import { Checkbox } from "react-native-paper";
 import React, { useState } from "react";
-import { Image, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { Image, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
 import { ROLE_APPLICANT } from "../../../../constants/constants";
@@ -21,12 +22,14 @@ export default function SignupScreen({ navigation }) {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [checked, setChecked] = useState(false);
 
   const [passwordSecureTextEntry, setPasswordSecureTextEntry] =
     React.useState(true);
   const [confirmPasswordSecureTextEntry, setConfirmPasswordSecureTextEntry] =
     React.useState(true);
 
+    
   const onLoginNavPress = () => {
     navigation.navigate("LoginScreen");
   };
@@ -157,6 +160,18 @@ export default function SignupScreen({ navigation }) {
           autoCapitalize="none"
         />
 
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <Checkbox.Android
+        status={checked ? 'checked' : 'unchecked'}
+        onPress={() => {
+           setChecked(!checked);
+        }}
+        style={styles1.checkbox}
+        color={'blue'}
+        />
+        <Text style={{ marginLeft: 8 }}>I am an employer</Text>
+        </View>
+
         <Button
           style={styles.button}
           disabled={!email && !password && !confirmPassword}
@@ -197,4 +212,12 @@ const styles = StyleSheet.create({
   text: {
     margin: 10,
   },
+});
+
+const styles1 = StyleSheet.create({
+  container: {
+     flex: 1,
+     justifyContent: 'center',
+     alignItems: 'center',
+  }
 });
