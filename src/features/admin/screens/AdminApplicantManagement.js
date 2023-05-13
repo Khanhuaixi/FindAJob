@@ -44,8 +44,9 @@ function AdminApplicantManagement({ route, navigation }) {
   const Header = (props) => (
     <View {...props}>
       <Text category="h6">
-        {info.item.firstName} {info.item.lastName}{" "}
-        <Text appearance="hint">Applicant Id: {info.item.applicantId}</Text>
+        {applicant.firstName ? applicant.firstName : "-"}{" "}
+        {applicant.lastName ? applicant.lastName : "-"}{" "}
+        <Text appearance="hint">Applicant Id: {applicant.applicantId}</Text>
       </Text>
     </View>
   );
@@ -73,19 +74,49 @@ function AdminApplicantManagement({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Card style={styles.card} header={Header} footer={Footer}>
+        <Text category="s1">Email:</Text>
+        <Text>
+          {applicant.email ? applicant.email : "-"}
+          {"\n"}
+        </Text>
+        <Text category="s1">Education:</Text>
+        <Text>
+          {applicant.education ? applicant.education : "-"}
+          {"\n"}
+        </Text>
+        <Text category="s1">Skill:</Text>
+        <Text>
+          {applicant.skill ? applicant.skill : "-"}
+          {"\n"}
+        </Text>
+        <Text category="s1">Languages:</Text>
+        <Text>
+          {applicant.languages ? applicant.languages : "-"}
+          {"\n"}
+        </Text>
+        <Text category="s1">Age:</Text>
+        <Text>
+          {applicant.age ? applicant.age : "-"}
+          {"\n"}
+        </Text>
+        <Text category="s1">Address:</Text>
+        <Text>
+          {applicant.address ? applicant.address : "-"}
+          {"\n"}
+        </Text>
         <Text category="s1">Contact Number:</Text>
         <Text>
-          {applicant.contactNumber}
+          {applicant.contactNumber ? applicant.contactNumber : "-"}
           {"\n"}
         </Text>
         <Text category="s1">Expected Salary:</Text>
         <Text>
-          {applicant.expectedSalary}
+          RM{applicant.expectedSalary ? applicant.expectedSalary : "-"}
           {"\n"}
         </Text>
         <Text category="s1">Experience:</Text>
         <Text>
-          {applicant.experience}
+          {applicant.experience ? applicant.experience : "-"}
           {"\n"}
         </Text>
         <Text category="s1">Applicant List:</Text>
