@@ -165,7 +165,7 @@ export default function SignupScreen({ navigation }) {
     },
     {
        "id": 2, 
-       "name": "I am an Employee",
+       "name": "I am an Employer",
     }
   ]
 
