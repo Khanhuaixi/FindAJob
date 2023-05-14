@@ -4,29 +4,22 @@ import { StyleSheet, ScrollView, View } from "react-native";
 import { firebase } from "../../../../config";
 
 function EmployerProfile({ navigation }) {
-  const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
   const [user, setUser] = useState("");
-  const [oldName, setOldName] = useState("");
-  const [fullName, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [oldFirstName, setOldFirstName] = useState("");
+  const [oldLastName, setOldLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [newCompanyName, setNewCompanyNameValue] = React.useState("");
   const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
 
   const db = firebase.firestore();
   const userId = firebase.auth().currentUser.uid;
   const userRef = db.collection("users").doc(userId);
-
-  const handleSignOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "LoginScreen" }],
-        });
-      });
-  };
 
   function handleCancel() {
     // clearInputs();
@@ -39,6 +32,19 @@ function EmployerProfile({ navigation }) {
     setIsDisabled(true);
   }
 
+  const isButtonDisabled = oldFirstName === firstName || oldLastName === lastName;
+
+  const handleSignOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "LoginScreen" }],
+        });
+      });
+  };
 
   const handleSubmit = () => {
     userRef
@@ -64,6 +70,7 @@ function EmployerProfile({ navigation }) {
         if (doc.exists) {
           const data = doc.data();
           setUser(data);
+          setEmail(data.email);
           setOldName(data.fullName);
           setName(data.fullName);
         } else {
@@ -76,28 +83,33 @@ function EmployerProfile({ navigation }) {
 
   return (
     <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text category="h1">Employer Profile</Text>
+      <Text category="h5">Employer Profile</Text>
+      <Input style={styles.input} value={email} label="Email" disabled />
+
       <Input
         style={styles.input}
-        value={fullName}
-        label="Full Name"
-        placeholder={fullName}
-        onChangeText={(nextValue) => setName(nextValue)}
+        value={firstName}
+        label="First Name"
+        placeholder={firstName}
+        onChangeText={(nextValue) => setFirstName(nextValue)}
         autoCapitalize="none"
       />
 
-      
+      <Input
+        style={styles.input}
+        value={lastName}
+        label="Last Name"
+        placeholder={lastName}
+        onChangeText={(nextValue) => setLastName(nextValue)}
+        autoCapitalize="none"
+      />
 
       <Button
         style={styles.button}
-        disabled={oldName === fullName}
+        disabled={isButtonDisabled}
         onPress={() => handleSubmit()}
       >
         Save
-      </Button>
-
-      <Button style={styles.button} onPress={() => setCreateModalVisible(true)}>
-        Add New Company
       </Button>
 
       <Modal
@@ -138,6 +150,10 @@ function EmployerProfile({ navigation }) {
         </Card>
       </Modal>
 
+      <Button style={styles.button} onPress={() => setCreateModalVisible(true)}>
+        Add New Company
+      </Button>
+
       <Button
         style={styles.button}
         disabled={!user}
@@ -145,6 +161,8 @@ function EmployerProfile({ navigation }) {
       >
         Log Out
       </Button>
+      {error && <Text style={styles.error}>Error: {error}</Text>}
+      {success && <Text style={styles.success}>{success}</Text>}
     </Layout>
   );
 }
@@ -160,5 +178,11 @@ const styles = StyleSheet.create({
   },
   text: {
     margin: 10,
+  },
+  error: {
+    color: "red",
+  },
+  success: {
+    color: "green",
   },
 });
