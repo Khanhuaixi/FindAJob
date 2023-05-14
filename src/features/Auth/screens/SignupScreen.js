@@ -34,54 +34,105 @@ export default function SignupScreen({ navigation }) {
     navigation.navigate("LoginScreen");
   };
 
-  const onRegisterPress = async () => {
-    if (password !== confirmPassword) {
-      alert("Passwords don't match.");
-      return;
-    }   
-    await createApplicant(
-      firstName,
-      lastName,
-      email,
-      contactNumber,
-      applicationList,
-      expectedSalary,
-      experience,
-      education,
-      skill,
-      languages,
-      age,
-      address
-    );
 
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
-        const uid = response.user.uid;
-        const data = {
-          id: uid,
-          email,
-          role: ROLE_APPLICANT,
-        };
-        const usersRef = firebase.firestore().collection("users");
-        usersRef
-          .doc(uid)
-          .set(data)
-          .then(() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "AdminTabBar" }],
+  const onRegisterPress = async () => {
+    if(selectedIndex == 2){
+      if (password !== confirmPassword) {
+        alert("Passwords don't match.");
+        return;
+      }   
+      await createApplicant(
+        firstName,
+        lastName,
+        email,
+        contactNumber,
+        applicationList,
+        expectedSalary,
+        experience,
+        education,
+        skill,
+        languages,
+        age,
+        address
+      );
+  
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((response) => {
+          const uid = response.user.uid;
+          const data = {
+            id: uid,
+            email,
+            role: ROLE_EMPLOYER,
+          };
+          const usersRef = firebase.firestore().collection("users");
+          usersRef
+            .doc(uid)
+            .set(data)
+            .then(() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "EmployerTabBar" }],
+              });
+              navigation.navigate("EmployerTabBar");
+            })
+            .catch((error) => {
+              alert(error);
             });
-            navigation.navigate("AdminTabBar");
-          })
-          .catch((error) => {
-            alert(error);
-          });
-      })
-      .catch((error) => {
-        alert(error);
-      });
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }else if (selectedIndex == 1){
+      if (password !== confirmPassword) {
+        alert("Passwords don't match.");
+        return;
+      }   
+      await createApplicant(
+        firstName,
+        lastName,
+        email,
+        contactNumber,
+        applicationList,
+        expectedSalary,
+        experience,
+        education,
+        skill,
+        languages,
+        age,
+        address
+      );
+  
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((response) => {
+          const uid = response.user.uid;
+          const data = {
+            id: uid,
+            email,
+            role: ROLE_APPLICANT,
+          };
+          const usersRef = firebase.firestore().collection("users");
+          usersRef
+            .doc(uid)
+            .set(data)
+            .then(() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "AdminTabBar" }],
+              });
+              navigation.navigate("AdminTabBar");
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }   
   };
 
   const togglePasswordSecureEntry = () => {
@@ -178,7 +229,7 @@ export default function SignupScreen({ navigation }) {
         style={styles.input}
         >
         {data.map((item) => (
-        <SelectItem title={item.name} index={item.id} />
+        <SelectItem title={item.name} key="{title}" />
         ))}
         </Select>
 
