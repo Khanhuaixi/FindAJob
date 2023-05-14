@@ -1,10 +1,10 @@
-import { Button, Icon, Input, Layout, Text} from "@ui-kitten/components";
-import { Checkbox } from "react-native-paper";
+import { Button, Icon, Input, Layout, Text, Select, IndexPath, SelectItem} from "@ui-kitten/components";
 import React, { useState } from "react";
-import { Image, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { Image, StyleSheet, TouchableWithoutFeedback, View ,} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
 import { ROLE_APPLICANT } from "../../../../constants/constants";
+import { ROLE_EMPLOYER } from "../../../../constants/constants";
 import { createApplicant } from "../../../api/applicants";
 
 export default function SignupScreen({ navigation }) {
@@ -22,7 +22,7 @@ export default function SignupScreen({ navigation }) {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [checked, setChecked] = useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
 
   const [passwordSecureTextEntry, setPasswordSecureTextEntry] =
     React.useState(true);
@@ -38,7 +38,7 @@ export default function SignupScreen({ navigation }) {
     if (password !== confirmPassword) {
       alert("Passwords don't match.");
       return;
-    }
+    }   
     await createApplicant(
       firstName,
       lastName,
@@ -107,6 +107,17 @@ export default function SignupScreen({ navigation }) {
     </TouchableWithoutFeedback>
   );
 
+  const data = [
+    {
+       "id": 1, 
+       "name": "I am an Applicant",
+    },
+    {
+       "id": 2, 
+       "name": "I am an Employee",
+    }
+  ]
+
   return (
     <Layout style={styles.layout}>
       <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
@@ -159,18 +170,17 @@ export default function SignupScreen({ navigation }) {
           onChangeText={(nextValue) => setConfirmPassword(nextValue)}
           autoCapitalize="none"
         />
-
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Checkbox.Android
-        status={checked ? 'checked' : 'unchecked'}
-        onPress={() => {
-           setChecked(!checked);
-        }}
-        style={styles1.checkbox}
-        color={'blue'}
-        />
-        <Text style={{ marginLeft: 8 }}>I am an employer</Text>
-        </View>
+        <Select
+        selectedIndex={selectedIndex}
+        label = "Select Role"
+        onSelect={index => setSelectedIndex(index)}
+        value={data[selectedIndex.row]?.name}
+        style={styles.input}
+        >
+        {data.map((item) => (
+        <SelectItem title={item.name} index={item.id} />
+        ))}
+        </Select>
 
         <Button
           style={styles.button}
