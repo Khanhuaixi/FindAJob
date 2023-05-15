@@ -43,7 +43,7 @@ function AdminApplicantManagement({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Card style={styles.card} header={Header} footer={Footer}>
+      <Card style={styles.card} header={Header}>
         <Text category="s1">Email:</Text>
         <Text>
           {applicant.email ? applicant.email : "-"}
