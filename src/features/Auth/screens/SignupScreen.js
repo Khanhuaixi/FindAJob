@@ -1,9 +1,10 @@
-import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
+import { Button, Icon, Input, Layout, Text, Select, IndexPath, SelectItem} from "@ui-kitten/components";
 import React, { useState } from "react";
-import { Image, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { Image, StyleSheet, TouchableWithoutFeedback, View ,} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
 import { ROLE_APPLICANT } from "../../../../constants/constants";
+import { ROLE_EMPLOYER } from "../../../../constants/constants";
 import { createApplicant } from "../../../api/applicants";
 
 export default function SignupScreen({ navigation }) {
@@ -21,64 +22,117 @@ export default function SignupScreen({ navigation }) {
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
 
   const [passwordSecureTextEntry, setPasswordSecureTextEntry] =
     React.useState(true);
   const [confirmPasswordSecureTextEntry, setConfirmPasswordSecureTextEntry] =
     React.useState(true);
 
+    
   const onLoginNavPress = () => {
     navigation.navigate("LoginScreen");
   };
 
-  const onRegisterPress = async () => {
-    if (password !== confirmPassword) {
-      alert("Passwords don't match.");
-      return;
-    }
-    await createApplicant(
-      firstName,
-      lastName,
-      email,
-      contactNumber,
-      applicationList,
-      expectedSalary,
-      experience,
-      education,
-      skill,
-      languages,
-      age,
-      address
-    );
 
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
-        const uid = response.user.uid;
-        const data = {
-          id: uid,
-          email,
-          role: ROLE_APPLICANT,
-        };
-        const usersRef = firebase.firestore().collection("users");
-        usersRef
-          .doc(uid)
-          .set(data)
-          .then(() => {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "AdminTabBar" }],
+  const onRegisterPress = async () => {
+    if(selectedIndex == 2){
+      if (password !== confirmPassword) {
+        alert("Passwords don't match.");
+        return;
+      }   
+      await createApplicant(
+        firstName,
+        lastName,
+        email,
+        contactNumber,
+        applicationList,
+        expectedSalary,
+        experience,
+        education,
+        skill,
+        languages,
+        age,
+        address
+      );
+  
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((response) => {
+          const uid = response.user.uid;
+          const data = {
+            id: uid,
+            email,
+            role: ROLE_EMPLOYER,
+          };
+          const usersRef = firebase.firestore().collection("users");
+          usersRef
+            .doc(uid)
+            .set(data)
+            .then(() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "EmployerTabBar" }],
+              });
+              navigation.navigate("EmployerTabBar");
+            })
+            .catch((error) => {
+              alert(error);
             });
-            navigation.navigate("AdminTabBar");
-          })
-          .catch((error) => {
-            alert(error);
-          });
-      })
-      .catch((error) => {
-        alert(error);
-      });
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }else if (selectedIndex == 1){
+      if (password !== confirmPassword) {
+        alert("Passwords don't match.");
+        return;
+      }   
+      await createApplicant(
+        firstName,
+        lastName,
+        email,
+        contactNumber,
+        applicationList,
+        expectedSalary,
+        experience,
+        education,
+        skill,
+        languages,
+        age,
+        address
+      );
+  
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((response) => {
+          const uid = response.user.uid;
+          const data = {
+            id: uid,
+            email,
+            role: ROLE_APPLICANT,
+          };
+          const usersRef = firebase.firestore().collection("users");
+          usersRef
+            .doc(uid)
+            .set(data)
+            .then(() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "AdminTabBar" }],
+              });
+              navigation.navigate("AdminTabBar");
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }   
   };
 
   const togglePasswordSecureEntry = () => {
@@ -103,6 +157,17 @@ export default function SignupScreen({ navigation }) {
       />
     </TouchableWithoutFeedback>
   );
+
+  const data = [
+    {
+       "id": 1, 
+       "name": "I am an Applicant",
+    },
+    {
+       "id": 2, 
+       "name": "I am an Employer",
+    }
+  ]
 
   return (
     <Layout style={styles.layout}>
@@ -156,6 +221,17 @@ export default function SignupScreen({ navigation }) {
           onChangeText={(nextValue) => setConfirmPassword(nextValue)}
           autoCapitalize="none"
         />
+        <Select
+        selectedIndex={selectedIndex}
+        label = "Select Role"
+        onSelect={index => setSelectedIndex(index)}
+        value={data[selectedIndex.row]?.name}
+        style={styles.input}
+        >
+        {data.map((item) => (
+        <SelectItem title={item.name} key="{title}" />
+        ))}
+        </Select>
 
         <Button
           style={styles.button}
@@ -197,4 +273,12 @@ const styles = StyleSheet.create({
   text: {
     margin: 10,
   },
+});
+
+const styles1 = StyleSheet.create({
+  container: {
+     flex: 1,
+     justifyContent: 'center',
+     alignItems: 'center',
+  }
 });

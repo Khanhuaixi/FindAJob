@@ -8,14 +8,14 @@ const Tab = createMaterialBottomTabNavigator();
 export function EmployerTabBar() {
     return (
       <Tab.Navigator>
-        {/* <Tab.Screen
+        <Tab.Screen
           name="EmployerJobList"
           component={EmployerJobList}
           options={{
-            tabBarLabel: "Profile",
+            tabBarLabel: "Job List",
             tabBarIcon: () => <Ionicons name="briefcase-outline" size={20} />,
           }}
-        /> */}
+        />
         <Tab.Screen
           name="EmployerProfile"
           component={EmployerProfile}

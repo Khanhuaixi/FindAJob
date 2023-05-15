@@ -21,8 +21,8 @@ import AdminJobManagement from "./src/features/admin/screens/AdminJobManagement"
 import AdminProfile from "./src/features/admin/screens/AdminProfile";
 import { EmployerTabBar } from "./src/features/employer/navigation/EmployerTabBar";
 import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
-import AdminApplicantManagement from "./src/features/admin/screens/AdminApplicantManagement";
 import EmployerJobList from "./src/features/employer/screens/EmployerJobList";
+import AdminApplicantManagement from "./src/features/admin/screens/AdminApplicantManagement";
 
 // const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
