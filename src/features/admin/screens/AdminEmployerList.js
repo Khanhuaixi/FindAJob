@@ -11,12 +11,15 @@ import {
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { createEmployer, getEmployers } from "../../../api/employers";
+import { ROLE_EMPLOYER } from "../../../../constants/constants";
+import { firebase } from "../../../../config";
 
 function AdminEmployerList({ navigation }) {
   const isFocused = useIsFocused();
   const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
 
   const [employers, setEmployers] = useState([]);
+  const [newEmail, setNewEmailValue] = useState("");
   const [newCompanyName, setNewCompanyNameValue] = React.useState("");
   const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
   const [newStar, setNewStarValue] = React.useState("");
@@ -38,10 +41,21 @@ function AdminEmployerList({ navigation }) {
       setIsDisabled(true);
     } else {
       setIsDisabled(
-        !newCompanyName || !newCompanyType || !newStar || !newCompanyOverview
+        !newEmail ||
+          !newCompanyName ||
+          !newCompanyType ||
+          !newStar ||
+          !newCompanyOverview
       );
     }
-  }, [newCompanyName, newCompanyType, newStar, newCompanyOverview, status]);
+  }, [
+    newEmail,
+    newCompanyName,
+    newCompanyType,
+    newStar,
+    newCompanyOverview,
+    status,
+  ]);
 
   useEffect(() => {
     if (
@@ -59,6 +73,7 @@ function AdminEmployerList({ navigation }) {
   }, [newStar]);
 
   function clearInputs() {
+    setNewEmailValue("");
     setNewCompanyNameValue("");
     setNewCompanyTypeValue("");
     setNewStarValue("");
@@ -98,6 +113,11 @@ function AdminEmployerList({ navigation }) {
       }}
     >
       <Text category="s1">
+        Email:{"\n"}
+        {info.item.email}
+        {"\n"}
+      </Text>
+      <Text category="s1">
         Company Type:{"\n"}
         {info.item.companyType}
         {"\n"}
@@ -111,6 +131,7 @@ function AdminEmployerList({ navigation }) {
 
   async function handleCreateEmployer() {
     await createEmployer(
+      newEmail,
       newCompanyName,
       newCompanyType,
       newStar,
@@ -120,6 +141,29 @@ function AdminEmployerList({ navigation }) {
       setCreateModalVisible(false);
       fetchData();
     });
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(newEmail, "Password123$")
+      .then((response) => {
+        const uid = response.user.uid;
+        const data = {
+          id: uid,
+          newEmail,
+          role: ROLE_EMPLOYER,
+        };
+        const usersRef = firebase.firestore().collection("users");
+        usersRef
+          .doc(uid)
+          .set(data)
+          .catch((error) => {
+            alert(error);
+          });
+      })
+
+      .catch((error) => {
+        alert(error);
+      });
   }
 
   return (
@@ -142,6 +186,13 @@ function AdminEmployerList({ navigation }) {
         onBackdropPress={() => handleCancel()}
       >
         <Card disabled={true}>
+          <Input
+            style={styles.input}
+            value={newEmail}
+            label="Email"
+            placeholder="Email"
+            onChangeText={(nextValue) => setNewEmailValue(nextValue)}
+          />
           <Input
             style={styles.input}
             value={newCompanyName}
@@ -173,6 +224,10 @@ function AdminEmployerList({ navigation }) {
             placeholder="Company Overview"
             onChangeText={(nextValue) => setNewCompanyOverviewValue(nextValue)}
           />
+          <Text style={styles.input} appearance="hint">
+            The account created for employer will have default password of
+            'Password123$'
+          </Text>
           <View flexDirection="row" columnGap="5" alignSelf="flex-end">
             <Button status="basic" onPress={() => handleCancel()}>
               CANCEL

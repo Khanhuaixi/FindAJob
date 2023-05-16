@@ -1,5 +1,5 @@
 import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
@@ -10,15 +10,33 @@ import {
 } from "../../../../constants/constants";
 
 function LoginScreen({ navigation }) {
+  const [employers, setEmployers] = useState([]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const [employerExists, setEmployerExists] = React.useState(false);
+
+  async function fetchData() {
+    const response = await getEmployers();
+    setEmployers(response);
+  }
+
+  useEffect(() => {
+    fetchData();
+    setEmployerExists[employers.some((employer) => employer.email === email)];
+  }, [email]);
 
   const onSignupNavPress = () => {
     navigation.navigate("SignupScreen");
   };
 
   const onLoginPress = async () => {
+    if (!employerExists && email != "khanhuaixi@gmail.com") {
+      alert("Employer does not exist anymore.");
+      return;
+    }
+
     await firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
