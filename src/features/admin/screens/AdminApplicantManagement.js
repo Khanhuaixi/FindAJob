@@ -1,11 +1,28 @@
-import { Card, Divider, List, ListItem, Text } from "@ui-kitten/components";
+import {
+  Button,
+  Card,
+  Divider,
+  List,
+  ListItem,
+  Modal,
+  Text,
+} from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { getJobById } from "../../../api/jobs";
+import { deleteApplicant } from "../../../api/applicants";
 
 function AdminApplicantManagement({ route, navigation }) {
   const { applicant } = route.params;
+  const [isDeleteModalVisible, setDeleteModalVisible] = React.useState(false);
   const [applications, setApplications] = useState([]);
+
+  async function handleDeleteApplicant(i) {
+    await deleteApplicant(i).then(() => {
+      setDeleteModalVisible(false);
+      navigation.goBack();
+    });
+  }
 
   useEffect(() => {
     if (applicant.applicationList != "") {
@@ -34,6 +51,19 @@ function AdminApplicantManagement({ route, navigation }) {
     </View>
   );
 
+  const Footer = (props) => (
+    <View {...props} style={[props.style, styles.footerContainer]}>
+      <Button
+        onPress={() => setDeleteModalVisible(true)}
+        style={styles.footerControl}
+        size="small"
+        status="danger"
+      >
+        DELETE
+      </Button>
+    </View>
+  );
+
   const renderItem = (info) => (
     <ListItem
       title={`${info.item.jobId}`}
@@ -43,7 +73,7 @@ function AdminApplicantManagement({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Card style={styles.card} header={Header}>
+      <Card style={styles.card} header={Header} footer={Footer}>
         <Text category="s1">Email:</Text>
         <Text>
           {applicant.email ? applicant.email : "-"}
@@ -101,6 +131,30 @@ function AdminApplicantManagement({ route, navigation }) {
           renderItem={renderItem}
         />
       </Card>
+
+      <Modal
+        visible={isDeleteModalVisible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setDeleteModalVisible(false)}
+      >
+        <Card disabled={true}>
+          <Text style={styles.text}>Are you sure you want to delete this?</Text>
+          <Text style={styles.text} appearance="hint">
+            This cannot be undone.
+          </Text>
+          <View flexDirection="row" columnGap="5" alignSelf="flex-end">
+            <Button status="basic" onPress={() => setDeleteModalVisible(false)}>
+              CANCEL
+            </Button>
+            <Button
+              status="danger"
+              onPress={() => handleDeleteApplicant(applicant.applicantId)}
+            >
+              CONFIRM
+            </Button>
+          </View>
+        </Card>
+      </Modal>
     </View>
   );
 }
