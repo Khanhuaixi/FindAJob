@@ -106,6 +106,11 @@ function AdminEmployerManagement({ route, navigation }) {
   return (
     <View style={styles.container}>
       <Card style={styles.card} header={Header} footer={Footer}>
+        <Text category="s1">Email:</Text>
+        <Text>
+          {employer.email}
+          {"\n"}
+        </Text>
         <Text category="s1">Company Type:</Text>
         <Text>
           {employer.companyType}
@@ -154,6 +159,12 @@ function AdminEmployerManagement({ route, navigation }) {
         onBackdropPress={() => setEditModalVisible(false)}
       >
         <Card disabled={true}>
+          <Input
+            style={styles.input}
+            value={employer.email}
+            label="Email"
+            disabled
+          />
           <Input
             style={styles.input}
             value={newCompanyName}

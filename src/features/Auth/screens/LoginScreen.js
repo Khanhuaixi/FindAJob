@@ -1,5 +1,5 @@
 import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { firebase } from "../../../../config";
@@ -8,17 +8,50 @@ import {
   ROLE_APPLICANT,
   ROLE_EMPLOYER,
 } from "../../../../constants/constants";
+import { getEmployers } from "../../../api/employers";
+import { getApplicants } from "../../../api/applicants";
 
 function LoginScreen({ navigation }) {
+  const [employers, setEmployers] = useState([]);
+  const [applicants, setApplicants] = useState([]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const [employerExists, setEmployerExists] = React.useState(false);
+  const [applicantExists, setApplicantExist] = React.useState(false);
+
+  async function fetchEmployersData() {
+    const response = await getEmployers();
+    setEmployers(response);
+  }
+
+  async function fetchApplicantsData() {
+    const response = await getApplicants();
+    setApplicants(response);
+  }
+
+  useEffect(() => {
+    fetchEmployersData();
+    setEmployerExists(employers.some((employer) => employer.email == email));
+    fetchApplicantsData();
+    setApplicantExist(applicants.some((applicant) => applicant.email == email));
+  }, [email]);
 
   const onSignupNavPress = () => {
     navigation.navigate("SignupScreen");
   };
 
   const onLoginPress = async () => {
+    if (
+      !applicantExists &&
+      !employerExists &&
+      email != "khanhuaixi@gmail.com"
+    ) {
+      alert("Account does not exist.");
+      return;
+    }
+
     await firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -30,7 +63,7 @@ function LoginScreen({ navigation }) {
           .get()
           .then((firestoreDocument) => {
             if (!firestoreDocument.exists) {
-              alert("User does not exist anymore.");
+              alert("User does not exist.");
               return;
             }
             if (firestoreDocument.data().role === ROLE_APPLICANT) {

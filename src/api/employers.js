@@ -2,6 +2,7 @@ import axios from "axios";
 import { URL } from "../../constants/constants";
 
 export async function createEmployer(
+  email,
   companyName,
   companyType,
   star,
@@ -10,6 +11,7 @@ export async function createEmployer(
   fetch(URL + "/api/Employers", {
     method: "POST",
     body: JSON.stringify({
+      Email: email,
       CompanyName: companyName,
       CompanyType: companyType,
       Star: star,
@@ -46,6 +48,7 @@ export async function getEmployerById(id) {
 
 export async function updateEmployer(
   employerId,
+  email,
   companyName,
   companyType,
   star,
@@ -55,6 +58,7 @@ export async function updateEmployer(
     method: "PUT",
     body: JSON.stringify({
       EmployerId: employerId,
+      Email: email,
       CompanyName: companyName,
       CompanyType: companyType,
       Star: star,
