@@ -14,6 +14,7 @@ function EmployerProfile({ navigation }) {
   const [lastName, setLastName] = useState("");
   const [oldFirstName, setOldFirstName] = useState("");
   const [oldLastName, setOldLastName] = useState("");
+  const [oldContactNumber, setOldContactNumber] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [applicationList, setApplicationList] = useState("");
   const [expectedSalary, setExpectedSalary] = useState("");
@@ -60,6 +61,15 @@ function EmployerProfile({ navigation }) {
     ).then(() => {
       applicant.firstName = firstName;
       applicant.lastName = lastName;
+      applicant.contactNumber = contactNumber;
+      setOldFirstName(firstName);
+      setOldLastName(lastName);
+      setOldContactNumber(contactNumber);
+      setSuccess("Profile updated successfully");
+      setTimeout(() => {
+        // After 5 seconds set the show value to false
+        setSuccess("");
+      }, 5000);
     });
   }
 
@@ -73,8 +83,10 @@ function EmployerProfile({ navigation }) {
         if (applicant !== "undefined") {
           setFirstName(applicant.firstName);
           setLastName(applicant.lastName);
+          setContactNumber(applicant.contactNumber)
           setOldFirstName(applicant.firstName);
           setOldLastName(applicant.lastName);
+          setOldContactNumber(applicant.contactNumber)
         }
       } else {
       }
@@ -164,9 +176,18 @@ function EmployerProfile({ navigation }) {
         autoCapitalize="none"
       />
 
+      <Input
+        style={styles.input}
+        value={contactNumber}
+        label="Contact Number"
+        placeholder={contactNumber}
+        onChangeText={(nextValue) => setContactNumber(nextValue)}
+        autoCapitalize="none"
+      />
+
       <Button
         style={styles.button}
-        disabled={oldFirstName === firstName && oldLastName === lastName}
+        disabled={oldFirstName === firstName && oldLastName === lastName && oldContactNumber === contactNumber}
         onPress={() => handleUpdateApplicant()}
       >
         Save
