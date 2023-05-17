@@ -2,24 +2,87 @@ import { Button, Input, Layout, Text, Modal, Card } from "@ui-kitten/components"
 import React, { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View } from "react-native";
 import { firebase } from "../../../../config";
+import { useIsFocused } from "@react-navigation/native";
+import { getApplicants, updateApplicant } from "../../../api/applicants";
+
 
 function EmployerProfile({ navigation }) {
+  const isFocused = useIsFocused();
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
-  const [oldFirstName, setOldFirstName] = useState("");
-  const [oldLastName, setOldLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [oldFirstName, setOldFirstName] = useState("");
+  const [oldLastName, setOldLastName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [applicationList, setApplicationList] = useState("");
+  const [expectedSalary, setExpectedSalary] = useState("");
+  const [experience, setExperience] = useState("");
+  const [education, setEducation] = useState("");
+  const [skill, setSkill] = useState("");
+  const [languages, setLanguages] = useState("");
+  const [age, setAge] = useState("");
+  const [address, setAddress] = useState(""); 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [newCompanyName, setNewCompanyNameValue] = React.useState("");
   const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
+  const [applicants, setApplicants] = useState([]);
+  const [applicant, setApplicant] = useState([])
+
 
   const db = firebase.firestore();
   const userId = firebase.auth().currentUser.uid;
   const userRef = db.collection("users").doc(userId);
+
+  async function fetchData() {
+    const response = await getApplicants();
+    setApplicants(response);
+  }
+
+  async function handleUpdateApplicant() {
+    await updateApplicant(     
+      applicant.applicantId,
+      firstName,
+      lastName,
+      email,
+      contactNumber,
+      applicationList,
+      expectedSalary,
+      experience,
+      education,
+      skill,
+      languages,
+      age,
+      address
+    ).then(() => {
+      applicant.firstName = firstName;
+      applicant.lastName = lastName;
+    });
+  }
+
+  useEffect(() => {
+    fetchData();
+  
+    const findApplicantByEmail = async () => {
+      const applicant = applicants.find((applicant) => applicant.email === email);
+      if (applicant) {
+        setApplicant(applicant)
+        if (applicant !== "undefined") {
+          setFirstName(applicant.firstName);
+          setLastName(applicant.lastName);
+          setOldFirstName(applicant.firstName);
+          setOldLastName(applicant.lastName);
+        }
+      } else {
+      }
+    };
+    
+    findApplicantByEmail();
+  }, [isFocused]);
+
 
   function handleCancel() {
     // clearInputs();
@@ -32,7 +95,6 @@ function EmployerProfile({ navigation }) {
     setIsDisabled(true);
   }
 
-  const isButtonDisabled = oldFirstName === firstName || oldLastName === lastName;
 
   const handleSignOut = () => {
     firebase
@@ -71,8 +133,6 @@ function EmployerProfile({ navigation }) {
           const data = doc.data();
           setUser(data);
           setEmail(data.email);
-          setOldName(data.fullName);
-          setName(data.fullName);
         } else {
           console.log("Error", "User not found.");
         }
@@ -106,8 +166,8 @@ function EmployerProfile({ navigation }) {
 
       <Button
         style={styles.button}
-        disabled={isButtonDisabled}
-        onPress={() => handleSubmit()}
+        disabled={oldFirstName === firstName && oldLastName === lastName}
+        onPress={() => handleUpdateApplicant()}
       >
         Save
       </Button>
@@ -140,7 +200,7 @@ function EmployerProfile({ navigation }) {
               </Button>
               <Button
                 status="primary"
-                // onPress={() => handleCreateCompany()}
+                onPress={() => handleCreateCompany()}
                 disabled={isDisabled}
               >
                 SAVE

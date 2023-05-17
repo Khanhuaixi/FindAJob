@@ -68,6 +68,7 @@ export async function updateApplicant(
   contactNumber,
   applicationList,
   expectedSalary,
+  experience,
   education,
   skill,
   languages,
