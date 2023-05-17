@@ -4,6 +4,7 @@ import { StyleSheet, ScrollView, View } from "react-native";
 import { firebase } from "../../../../config";
 import { useIsFocused } from "@react-navigation/native";
 import { getApplicants, updateApplicant } from "../../../api/applicants";
+import { createEmployer } from "../../../api/employers";
 
 
 function EmployerProfile({ navigation }) {
@@ -26,8 +27,11 @@ function EmployerProfile({ navigation }) {
   const [address, setAddress] = useState(""); 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [newEmail, setNewEmailValue] = React.useState("");
   const [newCompanyName, setNewCompanyNameValue] = React.useState("");
   const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
+  const [newCompanyOverview, setNewCompanyOverviewValue] = React.useState("");
+  const [newStar, setNewStarValue] = React.useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
   const [applicants, setApplicants] = useState([]);
@@ -41,6 +45,21 @@ function EmployerProfile({ navigation }) {
   async function fetchData() {
     const response = await getApplicants();
     setApplicants(response);
+  }
+
+  async function handleCreateEmployer() {
+    setNewStarValue("0")
+    setNewEmailValue(applicant.email)
+    await createEmployer(
+      newEmail,
+      newCompanyName,
+      newCompanyType,
+      newStar,
+      newCompanyOverview
+    ).then(() => {
+      clearInputs();
+      setCreateModalVisible(false);
+    });
   }
 
   async function handleUpdateApplicant() {
@@ -104,6 +123,7 @@ function EmployerProfile({ navigation }) {
   function clearInputs() {
     setNewCompanyNameValue("");
     setNewCompanyTypeValue("");
+    setNewCompanyOverviewValue("");
     setIsDisabled(true);
   }
 
@@ -215,14 +235,20 @@ function EmployerProfile({ navigation }) {
               placeholder="Company Type"
               onChangeText={(nextValue) => setNewCompanyTypeValue(nextValue)}
             />
+            <Input
+              style={styles.input}
+              value={newCompanyOverview}
+              label="Company Overview"
+              placeholder="Company Overview"
+              onChangeText={(nextValue) => setNewCompanyOverviewValue(nextValue)}
+            />
             <View flexDirection="row" columnGap="5" alignSelf="flex-end">
               <Button status="basic" onPress={() => handleCancel()}>
                 CANCEL
               </Button>
               <Button
                 status="primary"
-                onPress={() => handleCreateCompany()}
-                disabled={isDisabled}
+                onPress={() => handleCreateEmployer()}
               >
                 SAVE
               </Button>
