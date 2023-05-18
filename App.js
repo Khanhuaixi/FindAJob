@@ -23,6 +23,8 @@ import { EmployerTabBar } from "./src/features/employer/navigation/EmployerTabBa
 import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
 import EmployerJobList from "./src/features/employer/screens/EmployerJobList";
 import AdminApplicantManagement from "./src/features/admin/screens/AdminApplicantManagement";
+import ApplicantHome from "./src/features/applicant/screens/ApplicantHome";
+import { ApplicantTabBar } from "./src/features/applicant/navigation/ApplicantTabBar";
 
 // const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
@@ -39,6 +41,14 @@ function getAdminTitle(route) {
       return "Applicant List";
     case "AdminProfile":
       return "Profile";
+  }
+}
+
+function getApplicantTitle(route) {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "ApplicantTabBar";
+  switch (routeName) {
+    case "Applicant Home":
+      return "Home";
   }
 }
 
@@ -111,7 +121,20 @@ export default () => (
               headerTitle: "Applicant Detail",
             })}
           />
-
+          <Stack.Screen
+            name="ApplicantTabBar"
+            component={ApplicantTabBar}
+            options={({ route }) => ({
+              headerTitle: getApplicantTitle(route),
+            })}
+          />
+          <Stack.Screen
+            name="ApplicantHome"
+            component={ApplicantHome}
+            options={() => ({
+              headerTitle: "Applicant Home",
+            })}
+          />
           <Stack.Screen
             name="EmployerTabBar"
             component={EmployerTabBar}

@@ -1,37 +1,23 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
+import ApplicantHome from "../screens/ApplicantHome";
+
 
 const Tab = createMaterialBottomTabNavigator();
 
 export function ApplicantTabBar() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="ApplicantHome"
-        component={Applicant}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: () => <Ionicons name="briefcase-outline" size={20} />,
-        }}
-      />
-      <Tab.Screen
-        name="ApplicantSearchJob"
-        component={ApplicantSearchJob}
-        options={{
-          tabBarLabel: "Search",
-          tabBarIcon: () => <Ionicons name="business-outline" size={20} />,
-        }}
-      />
-      <Tab.Screen
-        name="ApplicantProfile"
-        component={ApplicantProfile}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: () => <Ionicons name="person-outline" size={20} />,
-        }}
-      />
-
-    </Tab.Navigator>
-  );
-}
+    return (
+      <Tab.Navigator>
+        <Tab.Screen
+          name="ApplicantHome"
+          component={ApplicantHome}
+          options={{
+            tabBarLabel: "ApplicantHome",
+            tabBarIcon: () => <Ionicons name="home-outline" size={20} />,
+          }}
+        />
+              
+      </Tab.Navigator>
+    );
+  }
