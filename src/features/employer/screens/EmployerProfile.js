@@ -46,11 +46,6 @@ function EmployerProfile({ navigation }) {
   const userId = firebase.auth().currentUser.uid;
   const userRef = db.collection("users").doc(userId);
 
-  async function fetchData() {
-    const response = await getEmployers();
-    setEmployers(response);
-  }
-
   async function handleUpdateEmployer() {
     await updateEmployer(     
       employer.employerId,
@@ -74,28 +69,34 @@ function EmployerProfile({ navigation }) {
     });
   }
 
-  useEffect(() => {
-    fetchData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await getEmployers();
+  //     setEmployers(response);
+  //   }
+
+  //   fetchData();
   
-    const findEmployerByEmail = async () => {
-      const employer = employers.find((employer) => employer.email === email);
-      if (employer) {
-        setEmployer(employer)
-        if (employer !== "undefined") {
-          setCompanyNameValue(employer.companyName);
-          setCompanyTypeValue(employer.companyType);
-          setCompanyOverviewValue(employer.companyOverview)
-          setStarValue(employer.star)
-          setOldCompanyNameValue(employer.companyName);
-          setOldCompanyTypeValue(employer.companyType);
-          setOldCompanyOverviewValue(employer.companyOverview)
-        }
-      } else {
-      }
-    };
+  //   const findEmployerByEmail = async () => {
+  //     const employer = employers.find((employer) => employer.email === email);
+  //     if (employer) {
+  //       setEmployer(employer)
+  //       if (employer !== "undefined") {
+  //         setCompanyNameValue(employer.companyName);
+  //         setCompanyTypeValue(employer.companyType);
+  //         setCompanyOverviewValue(employer.companyOverview)
+  //         setStarValue(employer.star)
+  //         setOldCompanyNameValue(employer.companyName);
+  //         setOldCompanyTypeValue(employer.companyType);
+  //         setOldCompanyOverviewValue(employer.companyOverview)
+  //         console.log(companyName)
+  //       }
+  //     } else {
+  //     }
+  //   };
     
-    findEmployerByEmail();
-  }, [isFocused]);
+  //   findEmployerByEmail();
+  // }, []);
 
 
   function handleCancel() {
@@ -154,7 +155,34 @@ function EmployerProfile({ navigation }) {
       });
     };
     fetchUser();
-  }, []);
+
+    const fetchData = async () => {
+      const response = await getEmployers();
+      setEmployers(response);
+      
+    }
+
+    fetchData();
+  
+    const findEmployerByEmail = async () => {
+      const employer = employers.find((employer) => employer.email === email);
+      if (employer) {
+        console.log(employer)
+        setEmployer(employer)
+        if (employer !== "undefined") {
+          setCompanyNameValue(employer.companyName);
+          setCompanyTypeValue(employer.companyType);
+          setCompanyOverviewValue(employer.companyOverview)
+          setStarValue(employer.star)
+          setOldCompanyNameValue(employer.companyName);
+          setOldCompanyTypeValue(employer.companyType);
+          setOldCompanyOverviewValue(employer.companyOverview)
+        }
+      }
+    };
+    
+    findEmployerByEmail();
+  }, [isFocused]);
 
   return (
     <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
