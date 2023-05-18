@@ -12,10 +12,11 @@ export default function SignupScreen({ navigation }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [companyType, setCompanyType] = useState("");
-  const [star, setStar] = useState("");
-  const [companyOverview, setCompanyOverview] = useState("");
+  const [newEmail, setNewEmailValue] = React.useState("");
+  const [newCompanyName, setNewCompanyNameValue] = React.useState("");
+  const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
+  const [newStar, setNewStarValue] = React.useState("");
+  const [newCompanyOverview, setNewCompanyOverviewValue] = React.useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [applicationList, setApplicationList] = useState("");
   const [expectedSalary, setExpectedSalary] = useState("");
@@ -40,98 +41,102 @@ export default function SignupScreen({ navigation }) {
   };
 
 
-  const onRegisterPress = async () => {
+  const onRegisterPress = () => {
     if(selectedIndex == 2){
-      setStar("0")
+      setNewStarValue("0")
+      setNewEmailValue(email)
       if (password != confirmPassword) {
         alert("Passwords don't match.");
         return;
-      }
-      await createEmployer(
-        email,
-        companyName,
-        companyType,
-        star,
-        companyOverview
-      );
-
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((response) => {
-          const uid = response.user.uid;
-          const data = {
-            id: uid,
-            email,
-            role: ROLE_EMPLOYER,
-          };
-          const usersRef = firebase.firestore().collection("users");
-          usersRef
-            .doc(uid)
-            .set(data)
-            .then(() => {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "EmployerTabBar" }],
+      }else{  
+        createEmployer(
+          newEmail,
+          newCompanyName,
+          newCompanyType,
+          newStar,
+          newCompanyOverview
+        );
+  
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((response) => {
+            const uid = response.user.uid;
+            const data = {
+              id: uid,
+              email,
+              role: ROLE_EMPLOYER,
+            };
+            const usersRef = firebase.firestore().collection("users");
+            usersRef
+              .doc(uid)
+              .set(data)
+              .then(() => {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "EmployerTabBar" }],
+                });
+                navigation.navigate("EmployerTabBar");
+              })
+              .catch((error) => {
+                alert(error);
               });
-              navigation.navigate("EmployerTabBar");
-            })
-            .catch((error) => {
-              alert(error);
-            });
-        })
-        .catch((error) => {
-          alert(error);
-        });
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      }      
     }else if (selectedIndex == 1){
       if (password !== confirmPassword) {
         alert("Passwords don't match.");
         return;
-      }   
-      await createApplicant(
-        firstName,
-        lastName,
-        email,
-        contactNumber,
-        applicationList,
-        expectedSalary,
-        experience,
-        education,
-        skill,
-        languages,
-        age,
-        address
-      );
-  
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((response) => {
-          const uid = response.user.uid;
-          const data = {
-            id: uid,
-            email,
-            role: ROLE_APPLICANT,
-          };
-          const usersRef = firebase.firestore().collection("users");
-          usersRef
-            .doc(uid)
-            .set(data)
-            .then(() => {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "AdminTabBar" }],
+      }else{
+        createApplicant(
+          firstName,
+          lastName,
+          email,
+          contactNumber,
+          applicationList,
+          expectedSalary,
+          experience,
+          education,
+          skill,
+          languages,
+          age,
+          address
+        );
+    
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((response) => {
+            const uid = response.user.uid;
+            const data = {
+              id: uid,
+              email,
+              role: ROLE_APPLICANT,
+            };
+            const usersRef = firebase.firestore().collection("users");
+            usersRef
+              .doc(uid)
+              .set(data)
+              .then(() => {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "AdminTabBar" }],
+                });
+                navigation.navigate("AdminTabBar");
+              })
+              .catch((error) => {
+                alert(error);
               });
-              navigation.navigate("AdminTabBar");
-            })
-            .catch((error) => {
-              alert(error);
-            });
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    }   
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      }
+      }   
+         
   };
 
   const togglePasswordSecureEntry = () => {
