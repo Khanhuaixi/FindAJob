@@ -6,11 +6,16 @@ import { firebase } from "../../../../config";
 import { ROLE_APPLICANT } from "../../../../constants/constants";
 import { ROLE_EMPLOYER } from "../../../../constants/constants";
 import { createApplicant } from "../../../api/applicants";
+import { createEmployer } from "../../../api/employers";
 
 export default function SignupScreen({ navigation }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyType, setCompanyType] = useState("");
+  const [star, setStar] = useState("");
+  const [companyOverview, setCompanyOverview] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [applicationList, setApplicationList] = useState("");
   const [expectedSalary, setExpectedSalary] = useState("");
@@ -37,25 +42,19 @@ export default function SignupScreen({ navigation }) {
 
   const onRegisterPress = async () => {
     if(selectedIndex == 2){
-      if (password !== confirmPassword) {
+      setStar("0")
+      if (password != confirmPassword) {
         alert("Passwords don't match.");
         return;
-      }   
-      await createApplicant(
-        firstName,
-        lastName,
+      }
+      await createEmployer(
         email,
-        contactNumber,
-        applicationList,
-        expectedSalary,
-        experience,
-        education,
-        skill,
-        languages,
-        age,
-        address
+        companyName,
+        companyType,
+        star,
+        companyOverview
       );
-  
+
       firebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
@@ -177,6 +176,18 @@ export default function SignupScreen({ navigation }) {
           source={require("../../../../assets/findajob.png")}
         />
         <Text style={styles.title}>Sign Up</Text>
+        <Select
+        selectedIndex={selectedIndex}
+        label = "Select Role"
+        onSelect={(index => setSelectedIndex(index))}
+        value={data[selectedIndex.row]?.name}
+        style={styles.input}
+        >
+        {data.map((item) => (
+        <SelectItem title={item.name} key="{title}" />
+        ))}
+        </Select>
+
         <Input
           style={styles.input}
           value={firstName}
@@ -184,6 +195,7 @@ export default function SignupScreen({ navigation }) {
           placeholder="Enter your first name"
           onChangeText={(nextValue) => setFirstName(nextValue)}
           autoCapitalize="none"
+          disabled={selectedIndex == 2}
         />
         <Input
           style={styles.input}
@@ -192,6 +204,7 @@ export default function SignupScreen({ navigation }) {
           placeholder="Enter your last name"
           onChangeText={(nextValue) => setLastName(nextValue)}
           autoCapitalize="none"
+          disabled={selectedIndex == 2}
         />
         <Input
           style={styles.input}
@@ -221,17 +234,7 @@ export default function SignupScreen({ navigation }) {
           onChangeText={(nextValue) => setConfirmPassword(nextValue)}
           autoCapitalize="none"
         />
-        <Select
-        selectedIndex={selectedIndex}
-        label = "Select Role"
-        onSelect={index => setSelectedIndex(index)}
-        value={data[selectedIndex.row]?.name}
-        style={styles.input}
-        >
-        {data.map((item) => (
-        <SelectItem title={item.name} key="{title}" />
-        ))}
-        </Select>
+        
 
         <Button
           style={styles.button}
