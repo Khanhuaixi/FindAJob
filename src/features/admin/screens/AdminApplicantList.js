@@ -11,7 +11,7 @@ function AdminApplicantList({ navigation }) {
 
   async function fetchData() {
     const response = await getApplicants();
-    setApplicants(response);
+    setApplicants(response.reverse());
   }
 
   useEffect(() => {

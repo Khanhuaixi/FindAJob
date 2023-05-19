@@ -1,6 +1,6 @@
 import { Button, Card, Input, Modal, Text } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { deleteEmployer, updateEmployer } from "../../../api/employers";
 
 function AdminEmployerManagement({ route, navigation }) {
@@ -59,6 +59,7 @@ function AdminEmployerManagement({ route, navigation }) {
   async function handleUpdateEmployer() {
     await updateEmployer(
       employer.employerId,
+      employer.email,
       newCompanyName,
       newCompanyType,
       newStar,
@@ -159,60 +160,65 @@ function AdminEmployerManagement({ route, navigation }) {
         onBackdropPress={() => setEditModalVisible(false)}
       >
         <Card disabled={true}>
-          <Input
-            style={styles.input}
-            value={employer.email}
-            label="Email"
-            disabled
-          />
-          <Input
-            style={styles.input}
-            value={newCompanyName}
-            label="Company Name"
-            placeholder="Company Name"
-            onChangeText={(nextValue) => setNewCompanyNameValue(nextValue)}
-          />
-          <Input
-            style={styles.input}
-            value={employer.employerId.toString()}
-            label="Employer Id"
-            disabled
-          />
-          <Input
-            style={styles.input}
-            value={newCompanyType}
-            label="Company Type"
-            placeholder="Company Type"
-            onChangeText={(nextValue) => setNewCompanyTypeValue(nextValue)}
-          />
-          <Input
-            style={styles.input}
-            status={status}
-            value={newStar.toString()}
-            label="Rating"
-            placeholder="Number of Star"
-            onChangeText={(nextValue) => setNewStarValue(nextValue)}
-            caption="Only accepts rating from 1 to 5"
-          />
-          <Input
-            style={styles.input}
-            value={newCompanyOverview}
-            label="Company Overview"
-            placeholder="Company Overview"
-            onChangeText={(nextValue) => setNewCompanyOverviewValue(nextValue)}
-          />
-          <View flexDirection="row" columnGap="5" alignSelf="flex-end">
-            <Button status="basic" onPress={() => setEditModalVisible(false)}>
-              CANCEL
-            </Button>
-            <Button
-              status="primary"
-              onPress={() => handleUpdateEmployer()}
-              disabled={isDisabled}
-            >
-              SAVE
-            </Button>
-          </View>
+          <ScrollView>
+            <Input
+              style={styles.input}
+              value={employer.email}
+              label="Email"
+              disabled
+            />
+            <Input
+              style={styles.input}
+              value={newCompanyName}
+              label="Company Name"
+              placeholder="Company Name"
+              onChangeText={(nextValue) => setNewCompanyNameValue(nextValue)}
+            />
+            <Input
+              style={styles.input}
+              value={employer.employerId.toString()}
+              label="Employer Id"
+              disabled
+            />
+            <Input
+              style={styles.input}
+              value={newCompanyType}
+              label="Company Type"
+              placeholder="Company Type"
+              onChangeText={(nextValue) => setNewCompanyTypeValue(nextValue)}
+            />
+            <Input
+              style={styles.input}
+              status={status}
+              value={newStar.toString()}
+              label="Rating"
+              placeholder="Number of Star"
+              onChangeText={(nextValue) => setNewStarValue(nextValue)}
+              caption="Only accepts rating from 1 to 5"
+              keyboardType="number-pad"
+            />
+            <Input
+              style={styles.input}
+              value={newCompanyOverview}
+              label="Company Overview"
+              placeholder="Company Overview"
+              onChangeText={(nextValue) =>
+                setNewCompanyOverviewValue(nextValue)
+              }
+            />
+            <View flexDirection="row" columnGap="5" alignSelf="flex-end">
+              <Button status="basic" onPress={() => setEditModalVisible(false)}>
+                CANCEL
+              </Button>
+              <Button
+                status="primary"
+                onPress={() => handleUpdateEmployer()}
+                disabled={isDisabled}
+              >
+                SAVE
+              </Button>
+            </View>
+          </ScrollView>
         </Card>
       </Modal>
     </View>

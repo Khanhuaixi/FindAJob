@@ -85,8 +85,6 @@ function LoginScreen({ navigation }) {
               });
               return;
             }
-
-            // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
           })
           .catch((error) => {
             alert(error);
@@ -136,7 +134,7 @@ function LoginScreen({ navigation }) {
 
         <Button
           style={styles.button}
-          disabled={!email && !password}
+          disabled={!email || !password}
           onPress={() => onLoginPress()}
         >
           Log in

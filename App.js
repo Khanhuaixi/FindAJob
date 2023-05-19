@@ -26,7 +26,6 @@ import AdminApplicantManagement from "./src/features/admin/screens/AdminApplican
 import ApplicantHome from "./src/features/applicant/screens/ApplicantHome";
 import { ApplicantTabBar } from "./src/features/applicant/navigation/ApplicantTabBar";
 
-// const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
 
 function getAdminTitle(route) {

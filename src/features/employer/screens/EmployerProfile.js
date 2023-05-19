@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, ScrollView, View } from "react-native";
 import { firebase } from "../../../../config";
 import { useIsFocused } from "@react-navigation/native";
-import { getApplicants, updateApplicant } from "../../../api/applicants";
 import { createEmployer } from "../../../api/employers";
+import { getEmployers } from "../../../api/employers";
+import { updateEmployer } from "../../../api/employers";
 
 
 function EmployerProfile({ navigation }) {
@@ -28,62 +29,38 @@ function EmployerProfile({ navigation }) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [newEmail, setNewEmailValue] = React.useState("");
-  const [newCompanyName, setNewCompanyNameValue] = React.useState("");
-  const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
-  const [newCompanyOverview, setNewCompanyOverviewValue] = React.useState("");
-  const [newStar, setNewStarValue] = React.useState("");
+  const [companyName, setCompanyNameValue] = React.useState("");
+  const [companyType, setCompanyTypeValue] = React.useState("");
+  const [companyOverview, setCompanyOverviewValue] = React.useState("");
+  const [oldCompanyName, setOldCompanyNameValue] = React.useState("");
+  const [oldCompanyType, setOldCompanyTypeValue] = React.useState("");
+  const [oldCompanyOverview, setOldCompanyOverviewValue] = React.useState("");
+  const [star, setStarValue] = React.useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
-  const [applicants, setApplicants] = useState([]);
-  const [applicant, setApplicant] = useState([])
+  const [employers, setEmployers] = useState([]);
+  const [employer, setEmployer] = useState([])
 
 
   const db = firebase.firestore();
   const userId = firebase.auth().currentUser.uid;
   const userRef = db.collection("users").doc(userId);
 
-  async function fetchData() {
-    const response = await getApplicants();
-    setApplicants(response);
-  }
-
-  async function handleCreateEmployer() {
-    setNewStarValue("0")
-    setNewEmailValue(applicant.email)
-    await createEmployer(
-      newEmail,
-      newCompanyName,
-      newCompanyType,
-      newStar,
-      newCompanyOverview
-    ).then(() => {
-      clearInputs();
-      setCreateModalVisible(false);
-    });
-  }
-
-  async function handleUpdateApplicant() {
-    await updateApplicant(     
-      applicant.applicantId,
-      firstName,
-      lastName,
+  async function handleUpdateEmployer() {
+    await updateEmployer(     
+      employer.employerId,
       email,
-      contactNumber,
-      applicationList,
-      expectedSalary,
-      experience,
-      education,
-      skill,
-      languages,
-      age,
-      address
+      companyName,
+      companyType,
+      star,
+      companyOverview
     ).then(() => {
-      applicant.firstName = firstName;
-      applicant.lastName = lastName;
-      applicant.contactNumber = contactNumber;
-      setOldFirstName(firstName);
-      setOldLastName(lastName);
-      setOldContactNumber(contactNumber);
+      employer.companyName = companyName;
+      employer.companyType = companyType;
+      employer.companyOverview = companyOverview;
+      setOldCompanyNameValue(companyName);
+      setOldCompanyTypeValue(companyType);
+      setOldCompanyOverviewValue(companyOverview);
       setSuccess("Profile updated successfully");
       setTimeout(() => {
         // After 5 seconds set the show value to false
@@ -92,27 +69,34 @@ function EmployerProfile({ navigation }) {
     });
   }
 
-  useEffect(() => {
-    fetchData();
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await getEmployers();
+  //     setEmployers(response);
+  //   }
+
+  //   fetchData();
   
-    const findApplicantByEmail = async () => {
-      const applicant = applicants.find((applicant) => applicant.email === email);
-      if (applicant) {
-        setApplicant(applicant)
-        if (applicant !== "undefined") {
-          setFirstName(applicant.firstName);
-          setLastName(applicant.lastName);
-          setContactNumber(applicant.contactNumber)
-          setOldFirstName(applicant.firstName);
-          setOldLastName(applicant.lastName);
-          setOldContactNumber(applicant.contactNumber)
-        }
-      } else {
-      }
-    };
+  //   const findEmployerByEmail = async () => {
+  //     const employer = employers.find((employer) => employer.email === email);
+  //     if (employer) {
+  //       setEmployer(employer)
+  //       if (employer !== "undefined") {
+  //         setCompanyNameValue(employer.companyName);
+  //         setCompanyTypeValue(employer.companyType);
+  //         setCompanyOverviewValue(employer.companyOverview)
+  //         setStarValue(employer.star)
+  //         setOldCompanyNameValue(employer.companyName);
+  //         setOldCompanyTypeValue(employer.companyType);
+  //         setOldCompanyOverviewValue(employer.companyOverview)
+  //         console.log(companyName)
+  //       }
+  //     } else {
+  //     }
+  //   };
     
-    findApplicantByEmail();
-  }, [isFocused]);
+  //   findEmployerByEmail();
+  // }, []);
 
 
   function handleCancel() {
@@ -140,23 +124,23 @@ function EmployerProfile({ navigation }) {
       });
   };
 
-  const handleSubmit = () => {
-    userRef
-      .update({ fullName })
-      .then(() => {
-        setOldName(fullName);
-        setSuccess("Profile updated successfully");
-        setError(null);
-        setTimeout(() => {
-          // After 5 seconds set the show value to false
-          setSuccess("");
-        }, 5000);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setSuccess(null);
-      });
-  };
+  // const handleSubmit = () => {
+  //   userRef
+  //     .update({ fullName })
+  //     .then(() => {
+  //       setOldName(fullName);
+  //       setSuccess("Profile updated successfully");
+  //       setError(null);
+  //       setTimeout(() => {
+  //         // After 5 seconds set the show value to false
+  //         setSuccess("");
+  //       }, 5000);
+  //     })
+  //     .catch((error) => {
+  //       setError(error.message);
+  //       setSuccess(null);
+  //     });
+  // };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -171,7 +155,34 @@ function EmployerProfile({ navigation }) {
       });
     };
     fetchUser();
-  }, []);
+
+    const fetchData = async () => {
+      const response = await getEmployers();
+      setEmployers(response);
+      
+    }
+
+    fetchData();
+  
+    const findEmployerByEmail = async () => {
+      const employer = employers.find((employer) => employer.email === email);
+      if (employer) {
+        console.log(employer)
+        setEmployer(employer)
+        if (employer !== "undefined") {
+          setCompanyNameValue(employer.companyName);
+          setCompanyTypeValue(employer.companyType);
+          setCompanyOverviewValue(employer.companyOverview)
+          setStarValue(employer.star)
+          setOldCompanyNameValue(employer.companyName);
+          setOldCompanyTypeValue(employer.companyType);
+          setOldCompanyOverviewValue(employer.companyOverview)
+        }
+      }
+    };
+    
+    findEmployerByEmail();
+  }, [isFocused]);
 
   return (
     <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -180,40 +191,40 @@ function EmployerProfile({ navigation }) {
 
       <Input
         style={styles.input}
-        value={firstName}
-        label="First Name"
-        placeholder={firstName}
-        onChangeText={(nextValue) => setFirstName(nextValue)}
+        value={companyName}
+        label="Company Name"
+        placeholder={companyName}
+        onChangeText={(nextValue) => setCompanyNameValue(nextValue)}
         autoCapitalize="none"
       />
 
       <Input
         style={styles.input}
-        value={lastName}
-        label="Last Name"
-        placeholder={lastName}
-        onChangeText={(nextValue) => setLastName(nextValue)}
+        value={companyType}
+        label="Company Type"
+        placeholder={companyType}
+        onChangeText={(nextValue) => setCompanyTypeValue(nextValue)}
         autoCapitalize="none"
       />
 
       <Input
         style={styles.input}
-        value={contactNumber}
-        label="Contact Number"
-        placeholder={contactNumber}
-        onChangeText={(nextValue) => setContactNumber(nextValue)}
+        value={companyOverview}
+        label="Company Overview"
+        placeholder={companyOverview}
+        onChangeText={(nextValue) => setCompanyOverviewValue(nextValue)}
         autoCapitalize="none"
       />
 
       <Button
         style={styles.button}
-        disabled={oldFirstName === firstName && oldLastName === lastName && oldContactNumber === contactNumber}
-        onPress={() => handleUpdateApplicant()}
+        disabled={oldCompanyName === companyName && oldCompanyType === companyType && oldCompanyOverview === companyOverview}
+        onPress={() => handleUpdateEmployer()}
       >
         Save
       </Button>
 
-      <Modal
+      {/* <Modal
         style={styles.modal}
         visible={isCreateModalVisible}
         backdropStyle={styles.backdrop}
@@ -255,11 +266,11 @@ function EmployerProfile({ navigation }) {
             </View>
           </ScrollView>
         </Card>
-      </Modal>
+      </Modal> */}
 
-      <Button style={styles.button} onPress={() => setCreateModalVisible(true)}>
+      {/* <Button style={styles.button} onPress={() => setCreateModalVisible(true)}>
         Add New Company
-      </Button>
+      </Button> */}
 
       <Button
         style={styles.button}

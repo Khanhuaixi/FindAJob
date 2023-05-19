@@ -40,7 +40,7 @@ function AdminJobList({ navigation }) {
 
   async function fetchData() {
     const response = await getJobs();
-    setJobs(response);
+    setJobs(response.reverse());
   }
 
   async function fetchEmployersData() {
@@ -50,7 +50,7 @@ function AdminJobList({ navigation }) {
   }
 
   useEffect(() => {
-    setNewEmployerIdValue(employers[selectedIndex]);
+    setNewEmployerIdValue(employers[selectedIndex - 1]);
   }, [selectedIndex]);
 
   useEffect(() => {
@@ -158,11 +158,6 @@ function AdminJobList({ navigation }) {
       <Text>
         Salary Range:{"\n"}
         RM{info.item.salaryRange}
-        {"\n"}
-      </Text>
-      <Text>
-        Job Description:{"\n"}
-        {info.item.jobDescription}
         {"\n"}
       </Text>
     </Card>

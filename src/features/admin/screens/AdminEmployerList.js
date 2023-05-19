@@ -9,7 +9,7 @@ import {
   Text,
 } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { createEmployer, getEmployers } from "../../../api/employers";
 import { ROLE_EMPLOYER } from "../../../../constants/constants";
 import { firebase } from "../../../../config";
@@ -29,7 +29,7 @@ function AdminEmployerList({ navigation }) {
 
   async function fetchData() {
     const response = await getEmployers();
-    setEmployers(response);
+    setEmployers(response.reverse());
   }
 
   useEffect(() => {
@@ -122,10 +122,6 @@ function AdminEmployerList({ navigation }) {
         {info.item.companyType}
         {"\n"}
       </Text>
-      <Text>
-        Company Overview:{"\n"}
-        {info.item.companyOverview}
-      </Text>
     </Card>
   );
 
@@ -186,60 +182,64 @@ function AdminEmployerList({ navigation }) {
         onBackdropPress={() => handleCancel()}
       >
         <Card disabled={true}>
-          <Input
-            style={styles.input}
-            value={newEmail}
-            label="Email"
-            placeholder="Email"
-            onChangeText={(nextValue) => setNewEmailValue(nextValue)}
-          />
-          <Input
-            style={styles.input}
-            value={newCompanyName}
-            label="Company Name"
-            placeholder="Company Name"
-            onChangeText={(nextValue) => setNewCompanyNameValue(nextValue)}
-          />
-          <Input
-            style={styles.input}
-            value={newCompanyType}
-            label="Company Type"
-            placeholder="Company Type"
-            onChangeText={(nextValue) => setNewCompanyTypeValue(nextValue)}
-          />
-          <Input
-            style={styles.input}
-            status={status}
-            value={newStar}
-            label="Rating"
-            placeholder="Number of Star"
-            onChangeText={(nextValue) => setNewStarValue(nextValue)}
-            caption="Only accepts rating from 1 to 5"
-            keyboardType="number-pad"
-          />
-          <Input
-            style={styles.input}
-            value={newCompanyOverview}
-            label="Company Overview"
-            placeholder="Company Overview"
-            onChangeText={(nextValue) => setNewCompanyOverviewValue(nextValue)}
-          />
-          <Text style={styles.input} appearance="hint">
-            The account created for employer will have default password of
-            'Password123$'
-          </Text>
-          <View flexDirection="row" columnGap="5" alignSelf="flex-end">
-            <Button status="basic" onPress={() => handleCancel()}>
-              CANCEL
-            </Button>
-            <Button
-              status="primary"
-              onPress={() => handleCreateEmployer()}
-              disabled={isDisabled}
-            >
-              SAVE
-            </Button>
-          </View>
+          <ScrollView>
+            <Input
+              style={styles.input}
+              value={newEmail}
+              label="Email"
+              placeholder="Email"
+              onChangeText={(nextValue) => setNewEmailValue(nextValue)}
+            />
+            <Input
+              style={styles.input}
+              value={newCompanyName}
+              label="Company Name"
+              placeholder="Company Name"
+              onChangeText={(nextValue) => setNewCompanyNameValue(nextValue)}
+            />
+            <Input
+              style={styles.input}
+              value={newCompanyType}
+              label="Company Type"
+              placeholder="Company Type"
+              onChangeText={(nextValue) => setNewCompanyTypeValue(nextValue)}
+            />
+            <Input
+              style={styles.input}
+              status={status}
+              value={newStar}
+              label="Rating"
+              placeholder="Number of Star"
+              onChangeText={(nextValue) => setNewStarValue(nextValue)}
+              caption="Only accepts rating from 1 to 5"
+              keyboardType="number-pad"
+            />
+            <Input
+              style={styles.input}
+              value={newCompanyOverview}
+              label="Company Overview"
+              placeholder="Company Overview"
+              onChangeText={(nextValue) =>
+                setNewCompanyOverviewValue(nextValue)
+              }
+            />
+            <Text style={styles.input} appearance="hint">
+              The account created for employer will have default password of
+              'Password123$'
+            </Text>
+            <View flexDirection="row" columnGap="5" alignSelf="flex-end">
+              <Button status="basic" onPress={() => handleCancel()}>
+                CANCEL
+              </Button>
+              <Button
+                status="primary"
+                onPress={() => handleCreateEmployer()}
+                disabled={isDisabled}
+              >
+                SAVE
+              </Button>
+            </View>
+          </ScrollView>
         </Card>
       </Modal>
     </Layout>

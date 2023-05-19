@@ -15,11 +15,13 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { createJob, getJobs } from "../../../api/jobs";
 import { getEmployers } from "../../../api/employers";
+import { firebase } from "../../../../config";
 
 function EmployerJobList({ navigation }) {
   const isFocused = useIsFocused();
   const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
-
+  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
   const [jobs, setJobs] = useState([]);
   const [newJobName, setNewJobNameValue] = React.useState("");
   const [newEmployerId, setNewEmployerIdValue] = React.useState("");
@@ -35,18 +37,57 @@ function EmployerJobList({ navigation }) {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const [employers, setEmployers] = useState([]);
+  const [employer, setEmployer] = useState([]);
+  const [employerId, setEmployerIdValue] = useState([]);
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
   const displayValue = employers[selectedIndex.row];
+
+  const db = firebase.firestore();
+  const userId = firebase.auth().currentUser.uid;
+  const userRef = db.collection("users").doc(userId);
 
   async function fetchData() {
     const response = await getJobs();
     setJobs(response);
   }
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      userRef.get().then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          setUser(data);
+          setEmail(data.email);
+        } else {
+          console.log("Error", "User not found.");
+        }
+      });
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    fetchEmployersData();
+
+    const findEmployerByEmail = async () => {
+      const employer = employers.find((employer) => employer.email === email);
+      if (employer) {
+        setEmployer(employer)
+        if (employer !== "undefined") {
+          setEmployerIdValue(employer.employerId)
+          
+        }
+      } else {
+      }
+    };
+    
+    findEmployerByEmail();
+  }, [isFocused]);
+
+
   async function fetchEmployersData() {
     const response = await getEmployers();
-    const employerIds = response.map((item) => item.employerId.toString());
-    setEmployers(employerIds);
+    setEmployers(response);
   }
 
   useEffect(() => {
@@ -55,7 +96,6 @@ function EmployerJobList({ navigation }) {
 
   useEffect(() => {
     fetchData();
-    fetchEmployersData();
   }, [isFocused]);
 
   useEffect(() => {
@@ -101,6 +141,7 @@ function EmployerJobList({ navigation }) {
   function handleCancel() {
     clearInputs();
     setCreateModalVisible(false);
+    console.log(employerId);
   }
 
   const renderItemHeader = (headerProps, info) => (
@@ -224,15 +265,6 @@ function EmployerJobList({ navigation }) {
               placeholder="Job Description"
               onChangeText={(nextValue) => setNewJobDescriptionValue(nextValue)}
             />
-            <Select
-              style={styles.select}
-              value={displayValue}
-              label="Employer Id"
-              selectedIndex={selectedIndex}
-              onSelect={(index) => setSelectedIndex(index)}
-            >
-              {employers.map(renderOption)}
-            </Select>
             <Input
               style={styles.input}
               value={newCareerLevel}
