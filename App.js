@@ -19,6 +19,7 @@ import AdminEmployerManagement from "./src/features/admin/screens/AdminEmployerM
 import AdminJobList from "./src/features/admin/screens/AdminJobList";
 import AdminJobManagement from "./src/features/admin/screens/AdminJobManagement";
 import AdminProfile from "./src/features/admin/screens/AdminProfile";
+import EmployerJobManagement from "./src/features/employer/screens/EmployerJobManagement";
 import { EmployerTabBar } from "./src/features/employer/navigation/EmployerTabBar";
 import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
 import EmployerJobList from "./src/features/employer/screens/EmployerJobList";
@@ -146,6 +147,13 @@ export default () => (
             component={EmployerJobList}
             options={() => ({
               headerTitle: "Employer Job List",
+            })}
+          />
+          <Stack.Screen
+            name="EmployerJobManagement"
+            component={EmployerJobManagement}
+            options={() => ({
+              headerTitle: "Employer Job Details",
             })}
           />
           <Stack.Screen

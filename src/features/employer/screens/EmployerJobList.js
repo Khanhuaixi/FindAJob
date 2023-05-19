@@ -173,7 +173,7 @@ function EmployerJobList({ navigation }) {
       header={(headerProps) => renderItemHeader(headerProps, info)}
       footer={(footerProps) => renderItemFooter(footerProps, info)}
       onPress={() => {
-        navigation.navigate("AdminJobManagement", {
+        navigation.navigate("EmployerJobManagement", {
           job: info.item,
         });
       }}
@@ -201,7 +201,6 @@ function EmployerJobList({ navigation }) {
     </Card>
   );
 
-  const renderOption = (title) => <SelectItem key="{title}" title={title} />;
 
   async function handleCreateJob() {
     const newEmployerId2 = newEmployerId.toString()
