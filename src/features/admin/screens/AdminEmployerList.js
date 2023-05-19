@@ -29,7 +29,7 @@ function AdminEmployerList({ navigation }) {
 
   async function fetchData() {
     const response = await getEmployers();
-    setEmployers(response);
+    setEmployers(response.reverse());
   }
 
   useEffect(() => {
@@ -121,10 +121,6 @@ function AdminEmployerList({ navigation }) {
         Company Type:{"\n"}
         {info.item.companyType}
         {"\n"}
-      </Text>
-      <Text>
-        Company Overview:{"\n"}
-        {info.item.companyOverview}
       </Text>
     </Card>
   );

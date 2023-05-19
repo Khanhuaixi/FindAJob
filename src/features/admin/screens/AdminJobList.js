@@ -40,7 +40,7 @@ function AdminJobList({ navigation }) {
 
   async function fetchData() {
     const response = await getJobs();
-    setJobs(response);
+    setJobs(response.reverse());
   }
 
   async function fetchEmployersData() {
