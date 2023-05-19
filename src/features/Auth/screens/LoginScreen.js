@@ -134,7 +134,7 @@ function LoginScreen({ navigation }) {
 
         <Button
           style={styles.button}
-          disabled={!email && !password}
+          disabled={!email || !password}
           onPress={() => onLoginPress()}
         >
           Log in
