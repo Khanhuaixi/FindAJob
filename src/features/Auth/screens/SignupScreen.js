@@ -41,15 +41,15 @@ export default function SignupScreen({ navigation }) {
   };
 
 
-  const onRegisterPress = () => {
+  const onRegisterPress = async() => {
     if(selectedIndex == 2){
       setNewStarValue("0")
       setNewEmailValue(email)
       if (password != confirmPassword) {
         alert("Passwords don't match.");
         return;
-      }else{  
-        createEmployer(
+      } 
+        await createEmployer(
           newEmail,
           newCompanyName,
           newCompanyType,
@@ -84,8 +84,7 @@ export default function SignupScreen({ navigation }) {
           })
           .catch((error) => {
             alert(error);
-          });
-      }      
+          });  
     }else if (selectedIndex == 1){
       if (password !== confirmPassword) {
         alert("Passwords don't match.");
