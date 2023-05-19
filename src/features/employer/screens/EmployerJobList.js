@@ -134,7 +134,6 @@ function EmployerJobList({ navigation }) {
   function handleCancel() {
     clearInputs();
     setCreateModalVisible(false);
-    console.log(newEmployerId);
   }
 
   const renderItemHeader = (headerProps, info) => (
@@ -168,7 +167,6 @@ function EmployerJobList({ navigation }) {
   );
 
   const renderItem = (info) => {
-    console.log(employer.employerId)
     if (info.item.employerId == employer.employerId) {
       return (
         <Card
@@ -229,23 +227,23 @@ function EmployerJobList({ navigation }) {
       clearInputs();
       setCreateModalVisible(false);
       fetchData();
-      console.log(newEmployerId)
     });
   }
 
 
   return (
     <Layout style={{ flex: 1, alignItems: "stretch" }}>
-      <Card style={styles.cardTop} status="info">
+      {/* <Card style={styles.cardTop} status="info">
         <Text category="h5" style={styles.textCardTop}>
-          Total Jobs: {jobs.length}
+          Total Jobs: {employerJobs.length}
         </Text>
-      </Card>
+      </Card> */}
 
+      
+      <List data={jobs} renderItem={renderItem} />
       <Button style={styles.button} onPress={() => setCreateModalVisible(true)}>
         Add New Job
       </Button>
-      <List data={jobs} renderItem={renderItem} />
 
       <Modal
         style={styles.modal}
