@@ -6,11 +6,17 @@ import { firebase } from "../../../../config";
 import { ROLE_APPLICANT } from "../../../../constants/constants";
 import { ROLE_EMPLOYER } from "../../../../constants/constants";
 import { createApplicant } from "../../../api/applicants";
+import { createEmployer } from "../../../api/employers";
 
 export default function SignupScreen({ navigation }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [newEmail, setNewEmailValue] = React.useState("");
+  const [newCompanyName, setNewCompanyNameValue] = React.useState("");
+  const [newCompanyType, setNewCompanyTypeValue] = React.useState("");
+  const [newStar, setNewStarValue] = React.useState("");
+  const [newCompanyOverview, setNewCompanyOverviewValue] = React.useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [applicationList, setApplicationList] = useState("");
   const [expectedSalary, setExpectedSalary] = useState("");
@@ -35,55 +41,51 @@ export default function SignupScreen({ navigation }) {
   };
 
 
-  const onRegisterPress = async () => {
+  const onRegisterPress = () => {
     if(selectedIndex == 2){
-      if (password !== confirmPassword) {
+      setNewStarValue("0")
+      setNewEmailValue(email)
+      if (password != confirmPassword) {
         alert("Passwords don't match.");
         return;
-      }   
-      await createApplicant(
-        firstName,
-        lastName,
-        email,
-        contactNumber,
-        applicationList,
-        expectedSalary,
-        experience,
-        education,
-        skill,
-        languages,
-        age,
-        address
-      );
+      }else{  
+        createEmployer(
+          newEmail,
+          newCompanyName,
+          newCompanyType,
+          newStar,
+          newCompanyOverview
+        );
   
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((response) => {
-          const uid = response.user.uid;
-          const data = {
-            id: uid,
-            email,
-            role: ROLE_EMPLOYER,
-          };
-          const usersRef = firebase.firestore().collection("users");
-          usersRef
-            .doc(uid)
-            .set(data)
-            .then(() => {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: "EmployerTabBar" }],
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((response) => {
+            const uid = response.user.uid;
+            const data = {
+              id: uid,
+              email,
+              role: ROLE_EMPLOYER,
+            };
+            const usersRef = firebase.firestore().collection("users");
+            usersRef
+              .doc(uid)
+              .set(data)
+              .then(() => {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "EmployerTabBar" }],
+                });
+                navigation.navigate("EmployerTabBar");
+              })
+              .catch((error) => {
+                alert(error);
               });
-              navigation.navigate("EmployerTabBar");
-            })
-            .catch((error) => {
-              alert(error);
-            });
-        })
-        .catch((error) => {
-          alert(error);
-        });
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      }      
     }else if (selectedIndex == 1){
       if (password !== confirmPassword) {
         alert("Passwords don't match.");
@@ -121,9 +123,9 @@ export default function SignupScreen({ navigation }) {
             .then(() => {
               navigation.reset({
                 index: 0,
-                routes: [{ name: "ApplicantTabBar" }],
+                routes: [{ name: "AdminTabBar" }],
               });
-              navigation.navigate("ApplicantTabBar");
+              navigation.navigate("AdminTabBar");
             })
             .catch((error) => {
               alert(error);
@@ -177,6 +179,18 @@ export default function SignupScreen({ navigation }) {
           source={require("../../../../assets/findajob.png")}
         />
         <Text style={styles.title}>Sign Up</Text>
+        <Select
+        selectedIndex={selectedIndex}
+        label = "Select Role"
+        onSelect={(index => setSelectedIndex(index))}
+        value={data[selectedIndex.row]?.name}
+        style={styles.input}
+        >
+        {data.map((item) => (
+        <SelectItem title={item.name} key="{title}" />
+        ))}
+        </Select>
+
         <Input
           style={styles.input}
           value={firstName}
@@ -184,6 +198,7 @@ export default function SignupScreen({ navigation }) {
           placeholder="Enter your first name"
           onChangeText={(nextValue) => setFirstName(nextValue)}
           autoCapitalize="none"
+          disabled={selectedIndex == 2}
         />
         <Input
           style={styles.input}
@@ -192,6 +207,7 @@ export default function SignupScreen({ navigation }) {
           placeholder="Enter your last name"
           onChangeText={(nextValue) => setLastName(nextValue)}
           autoCapitalize="none"
+          disabled={selectedIndex == 2}
         />
         <Input
           style={styles.input}
@@ -221,17 +237,7 @@ export default function SignupScreen({ navigation }) {
           onChangeText={(nextValue) => setConfirmPassword(nextValue)}
           autoCapitalize="none"
         />
-        <Select
-        selectedIndex={selectedIndex}
-        label = "Select Role"
-        onSelect={index => setSelectedIndex(index)}
-        value={data[selectedIndex.row]?.name}
-        style={styles.input}
-        >
-        {data.map((item) => (
-        <SelectItem title={item.name} key="{title}" />
-        ))}
-        </Select>
+        
 
         <Button
           style={styles.button}
