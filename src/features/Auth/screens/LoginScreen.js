@@ -85,8 +85,6 @@ function LoginScreen({ navigation }) {
               });
               return;
             }
-
-            // navigation.navigate('Home', {userID: userData.id, userName: userData.fullName, userRole: userData.role})
           })
           .catch((error) => {
             alert(error);
