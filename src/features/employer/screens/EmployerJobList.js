@@ -25,6 +25,7 @@ function EmployerJobList({ navigation }) {
   const [jobs, setJobs] = useState([]);
   const [newJobName, setNewJobNameValue] = React.useState("");
   const [newEmployerId, setNewEmployerIdValue] = React.useState("");
+  const [newEmployerId2, setNewEmployerId2Value] = React.useState("");
   const [newJobDescription, setNewJobDescriptionValue] = React.useState("");
   const [newCareerLevel, setNewCareerLevelValue] = React.useState("");
   const [newYearOfExperience, setNewYearOfExperienceValue] = React.useState("");
@@ -38,9 +39,7 @@ function EmployerJobList({ navigation }) {
 
   const [employers, setEmployers] = useState([]);
   const [employer, setEmployer] = useState([]);
-  const [employerId, setEmployerIdValue] = useState([]);
-  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-  const displayValue = employers[selectedIndex.row];
+
 
   const db = firebase.firestore();
   const userId = firebase.auth().currentUser.uid;
@@ -48,7 +47,7 @@ function EmployerJobList({ navigation }) {
 
   async function fetchData() {
     const response = await getJobs();
-    setJobs(response);
+    setJobs(response.reverse());
   }
 
   useEffect(() => {
@@ -74,7 +73,7 @@ function EmployerJobList({ navigation }) {
       if (employer) {
         setEmployer(employer)
         if (employer !== "undefined") {
-          setEmployerIdValue(employer.employerId)
+          setNewEmployerIdValue(employer.employerId)
           
         }
       } else {
@@ -91,17 +90,12 @@ function EmployerJobList({ navigation }) {
   }
 
   useEffect(() => {
-    setNewEmployerIdValue(employers[selectedIndex]);
-  }, [selectedIndex]);
-
-  useEffect(() => {
     fetchData();
   }, [isFocused]);
 
   useEffect(() => {
     setIsDisabled(
       !newJobName ||
-        !newEmployerId ||
         !newJobDescription ||
         !newCareerLevel ||
         !newYearOfExperience ||
@@ -125,8 +119,6 @@ function EmployerJobList({ navigation }) {
 
   function clearInputs() {
     setNewJobNameValue("");
-    setNewEmployerIdValue("");
-    setSelectedIndex(new IndexPath(0));
     setNewJobDescriptionValue("");
     setNewCareerLevelValue("");
     setNewYearOfExperienceValue("");
@@ -141,7 +133,7 @@ function EmployerJobList({ navigation }) {
   function handleCancel() {
     clearInputs();
     setCreateModalVisible(false);
-    console.log(employerId);
+    console.log(newEmployerId);
   }
 
   const renderItemHeader = (headerProps, info) => (
@@ -212,9 +204,11 @@ function EmployerJobList({ navigation }) {
   const renderOption = (title) => <SelectItem key="{title}" title={title} />;
 
   async function handleCreateJob() {
+    const newEmployerId2 = newEmployerId.toString()
+    setNewEmployerId2Value(newEmployerId2)
     await createJob(
       newJobName,
-      newEmployerId,
+      newEmployerId2,
       newJobDescription,
       newCareerLevel,
       newYearOfExperience,
@@ -227,6 +221,7 @@ function EmployerJobList({ navigation }) {
       clearInputs();
       setCreateModalVisible(false);
       fetchData();
+      console.log(newEmployerId)
     });
   }
 
