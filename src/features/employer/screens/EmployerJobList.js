@@ -23,6 +23,7 @@ function EmployerJobList({ navigation }) {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [jobs, setJobs] = useState([]);
+  const [employerJobs, setEmployerJobs] = useState([]);
   const [newJobName, setNewJobNameValue] = React.useState("");
   const [newEmployerId, setNewEmployerIdValue] = React.useState("");
   const [newEmployerId2, setNewEmployerId2Value] = React.useState("");
@@ -36,7 +37,6 @@ function EmployerJobList({ navigation }) {
   const [newSalaryRange, setNewSalaryRangeValue] = React.useState("");
   const [newApplicantList, setNewApplicantListValue] = React.useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-
   const [employers, setEmployers] = useState([]);
   const [employer, setEmployer] = useState([]);
 
@@ -81,6 +81,7 @@ function EmployerJobList({ navigation }) {
     };
     
     findEmployerByEmail();
+    
   }, [isFocused]);
 
 
@@ -166,40 +167,48 @@ function EmployerJobList({ navigation }) {
     </Text>
   );
 
-  const renderItem = (info) => (
-    <Card
-      style={styles.card}
-      status="basic"
-      header={(headerProps) => renderItemHeader(headerProps, info)}
-      footer={(footerProps) => renderItemFooter(footerProps, info)}
-      onPress={() => {
-        navigation.navigate("EmployerJobManagement", {
-          job: info.item,
-        });
-      }}
-    >
-      <Text category="s1">
-        Job Type: {"\n"}
-        {info.item.jobType}
-        {"\n"}
-      </Text>
-      <Text>
-        Job Specialization:{"\n"}
-        {info.item.jobSpecialization}
-        {"\n"}
-      </Text>
-      <Text>
-        Salary Range:{"\n"}
-        RM{info.item.salaryRange}
-        {"\n"}
-      </Text>
-      <Text>
-        Job Description:{"\n"}
-        {info.item.jobDescription}
-        {"\n"}
-      </Text>
-    </Card>
-  );
+  const renderItem = (info) => {
+    console.log(employer.employerId)
+    if (info.item.employerId == employer.employerId) {
+      return (
+        <Card
+          style={styles.card}
+          status="basic"
+          header={(headerProps) => renderItemHeader(headerProps, info)}
+          footer={(footerProps) => renderItemFooter(footerProps, info)}
+          onPress={() => {
+            navigation.navigate("EmployerJobManagement", {
+              job: info.item,
+            });
+          }}
+        >
+          <Text category="s1">
+            Job Type: {"\n"}
+            {info.item.jobType}
+            {"\n"}
+          </Text>
+          <Text>
+            Job Specialization:{"\n"}
+            {info.item.jobSpecialization}
+            {"\n"}
+          </Text>
+          <Text>
+            Salary Range:{"\n"}
+            RM{info.item.salaryRange}
+            {"\n"}
+          </Text>
+          <Text>
+            Job Description:{"\n"}
+            {info.item.jobDescription}
+            {"\n"}
+          </Text>
+        </Card>
+      );
+      
+    } else {
+      return null; // Don't render the job item if employerId doesn't match
+    }
+  };
 
 
   async function handleCreateJob() {
@@ -223,6 +232,7 @@ function EmployerJobList({ navigation }) {
       console.log(newEmployerId)
     });
   }
+
 
   return (
     <Layout style={{ flex: 1, alignItems: "stretch" }}>
