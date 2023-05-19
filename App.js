@@ -24,7 +24,6 @@ import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
 import EmployerJobList from "./src/features/employer/screens/EmployerJobList";
 import AdminApplicantManagement from "./src/features/admin/screens/AdminApplicantManagement";
 
-// const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
 
 function getAdminTitle(route) {
