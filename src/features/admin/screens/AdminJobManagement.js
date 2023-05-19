@@ -1,21 +1,21 @@
 import {
-  IndexPath,
   Button,
   Card,
-  Input,
-  Modal,
-  Text,
   Divider,
+  IndexPath,
+  Input,
   List,
   ListItem,
+  Modal,
   Select,
   SelectItem,
+  Text,
 } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
-import { deleteJob, updateJob } from "../../../api/jobs";
-import { getEmployers } from "../../../api/employers";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { getApplicantById } from "react-native-web/dist/cjs/exports/AppRegistry/renderApplication";
+import { getEmployers } from "../../../api/employers";
+import { deleteJob, updateJob } from "../../../api/jobs";
 
 function AdminJobManagement({ route, navigation }) {
   const { job } = route.params;
@@ -84,6 +84,10 @@ function AdminJobManagement({ route, navigation }) {
       setEditModalVisible(false);
     });
   }
+
+  useEffect(() => {
+    setNewEmployerIdValue(employers[selectedEmployerIndex - 1]);
+  }, [selectedEmployerIndex]);
 
   useEffect(() => {
     if (job.applicantList != "") {
@@ -246,6 +250,7 @@ function AdminJobManagement({ route, navigation }) {
           renderItem={renderItem}
         />
       </Card>
+
       <Modal
         style={styles.modal}
         visible={isDeleteModalVisible}
@@ -351,28 +356,7 @@ function AdminJobManagement({ route, navigation }) {
               placeholder="Salary Range"
               onChangeText={(nextValue) => setNewSalaryRangeValue(nextValue)}
             />
-            <Text category="label" appearance="hint">
-              Applicant List
-            </Text>
-            <Text>
-              {job.applicantList === "" ? "No Applicants Yet" : ""}
-              {"\n"}
-            </Text>
-            {/* <List
-              style={styles.list}
-              data={applicants}
-              ItemSeparatorComponent={Divider}
-              renderItem={renderItem}
-            /> */}
-            <List
-              style={styles.list}
-              data={applicants}
-              ItemSeparatorComponent={Divider}
-              renderItem={renderItem}
-            />
-            {applicants.map((item, index) => (
-              <Text key={index}>{item.applicantId}</Text>
-            ))}
+
             <View flexDirection="row" columnGap="5" alignSelf="flex-end">
               <Button status="basic" onPress={() => setEditModalVisible(false)}>
                 CANCEL
