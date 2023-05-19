@@ -6,6 +6,7 @@ import {
     Card,
     Text,
     SelectItem,
+    Layout,
   } from "@ui-kitten/components";
 
 
@@ -23,8 +24,8 @@ function ApplicantHome(){
     const renderItemHeader = (headerProps, info) => (
         <View {...headerProps}>
             <Text category="h6">
-                {info.item.companyName ? info.item.companyName : "-"}{" "}
-                <Text appearance="hint">Company Name: {info.item.applicantId}</Text>
+                {info.item.jobName ? info.item.jobName : "-"}{" "}
+                <Text appearance="hint">Job Name: {info.item.jobName}</Text>
             </Text>
         </View>
     );
@@ -34,12 +35,6 @@ function ApplicantHome(){
             <Text>
                 Job Name:{"\n"}
                 {info.item.jobName}
-                {"\n"}
-                {"\n"}
-            </Text>
-            <Text>
-                Star:{"\n"}
-                {info.item.star}
                 {"\n"}
                 {"\n"}
             </Text>
@@ -70,18 +65,13 @@ function ApplicantHome(){
               header={(headerProps) => renderItemHeader(headerProps, info)}
               footer={(footerProps) => renderItemFooter(footerProps, info)}
               onPress={() => {
-                navigation.navigate("AdminJobManagement", {
+                navigation.navigate("ApplicantJobApplication", {
                   job: info.item,
                 });
               }}
             >
               <Text category="s1">
-                Company Name: {"\n"}
-                {info.item.companyName}
-                {"\n"}
-              </Text>
-              <Text>
-                Job Type:{"\n"}
+                Job Type: {"\n"}
                 {info.item.jobType}
                 {"\n"}
               </Text>
@@ -104,6 +94,16 @@ function ApplicantHome(){
           );
         
           const renderOption = (title) => <SelectItem key="{title}" title={title} />;
+
+          return (
+            <Layout style={{ flex: 1, alignItems: "stretch" }}>
+              <Card style={styles.cardTop} status="info">
+                <Text category="h5" style={styles.textCardTop}>
+                  Total Jobs: {jobs.length}
+                </Text>
+              </Card>
+            </Layout>
+          );
     
 }
 
