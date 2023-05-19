@@ -50,7 +50,7 @@ function AdminJobList({ navigation }) {
   }
 
   useEffect(() => {
-    setNewEmployerIdValue(employers[selectedIndex]);
+    setNewEmployerIdValue(employers[selectedIndex - 1]);
   }, [selectedIndex]);
 
   useEffect(() => {
