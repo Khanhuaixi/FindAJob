@@ -59,6 +59,7 @@ function AdminEmployerManagement({ route, navigation }) {
   async function handleUpdateEmployer() {
     await updateEmployer(
       employer.employerId,
+      employer.email,
       newCompanyName,
       newCompanyType,
       newStar,
@@ -193,6 +194,7 @@ function AdminEmployerManagement({ route, navigation }) {
             placeholder="Number of Star"
             onChangeText={(nextValue) => setNewStarValue(nextValue)}
             caption="Only accepts rating from 1 to 5"
+            keyboardType="number-pad"
           />
           <Input
             style={styles.input}
