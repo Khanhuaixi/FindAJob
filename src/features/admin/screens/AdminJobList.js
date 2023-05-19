@@ -160,11 +160,6 @@ function AdminJobList({ navigation }) {
         RM{info.item.salaryRange}
         {"\n"}
       </Text>
-      <Text>
-        Job Description:{"\n"}
-        {info.item.jobDescription}
-        {"\n"}
-      </Text>
     </Card>
   );
 
