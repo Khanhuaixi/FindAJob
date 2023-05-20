@@ -34,7 +34,10 @@ function AdminApplicantManagement({ route, navigation }) {
           return getJobById(jobId);
         });
         const applications = await Promise.all(jobPromises);
-        setApplications(applications);
+        const validApplications = applications.filter(
+          (application) => application !== null
+        );
+        setApplications(validApplications);
       };
 
       fetchApplications();
@@ -119,7 +122,7 @@ function AdminApplicantManagement({ route, navigation }) {
           {applicant.experience ? applicant.experience : "-"}
           {"\n"}
         </Text>
-        <Text category="s1">Applicant List:</Text>
+        <Text category="s1">Application List:</Text>
         <Text>
           {applicant.applicationList === "" ? "No Jobs Applied Yet" : ""}
           {"\n"}

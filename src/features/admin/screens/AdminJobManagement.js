@@ -253,10 +253,7 @@ function AdminJobManagement({ route, navigation }) {
           {"\n"}
         </Text>
         <Text category="s1">Applicant List:</Text>
-        <Text>
-          {job.applicantList === "" ? "No Applicants Yet" : ""}
-          {"\n"}
-        </Text>
+        <Text>{job.applicantList === "" ? "No Applicants Yet" : ""}</Text>
         <List
           style={styles.list}
           data={applicants}
