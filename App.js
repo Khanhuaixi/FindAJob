@@ -29,7 +29,7 @@ import ApplicantHome from "./src/features/applicant/screens/ApplicantHome";
 import ApplicantProfile from "./src/features/applicant/screens/ApplicantProfile";
 import { ApplicantTabBar } from "./src/features/applicant/navigation/ApplicantTabBar";
 import AppliedJobs from "./src/features/applicant/screens/AppliedJobs";
-
+import ApplicantJobApplication from "./src/features/applicant/screens/ApplicantJobApplication";
 // const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -155,6 +155,13 @@ export default () => (
             component={AppliedJobs}
             options={() => ({
               headerTitle: "Applied Jobs",
+            })}
+          />
+          <Stack.Screen
+            name="ApplicantJobApplication"
+            component={ApplicantJobApplication}
+            options={() => ({
+              headerTitle: "Applicant Job Application",
             })}
           />
           <Stack.Screen
