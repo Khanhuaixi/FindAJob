@@ -3,41 +3,46 @@ import { StyleSheet, View, ScrollView, ViewProps  } from "react-native";
 import { getJobs } from "../../../api/jobs";
 import { useNavigation } from "@react-navigation/native";
 import {
-    Card,
-    Text,
-    SelectItem,
-    Layout,
+  IndexPath,
+  Button,
+  Card,
+  Layout,
+  List,
+  Text,
+  SelectItem,
   } from "@ui-kitten/components";
+import { useIsFocused } from "@react-navigation/native";
+
 
 
 function ApplicantHome(){
-
+    const isFocused = useIsFocused();
     const navigation = useNavigation();
     const [jobs, setJobs] = useState([]);
+    const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
+    const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
 
     async function fetchData() {
         const response = await getJobs();
         setJobs(response);
       };
-
       
+    useEffect(() => {
+        fetchData();
+      }, [isFocused]);
+
     const renderItemHeader = (headerProps, info) => (
         <View {...headerProps}>
             <Text category="h6">
-                {info.item.jobName ? info.item.jobName : "-"}{" "}
-                <Text appearance="hint">Job Name: {info.item.jobName}</Text>
+                {info.item.jobName}{" "}
+                <Text appearance="hint">Job Id: {info.item.jobId}</Text>
             </Text>
         </View>
     );
      
     const renderItemFooter = (footerProps, info) => (
         <Text {...footerProps}>
-            <Text>
-                Job Name:{"\n"}
-                {info.item.jobName}
-                {"\n"}
-                {"\n"}
-            </Text>
             <Text>
                 Year Of Experience Needed:{"\n"}
                 {info.item.yearOfExperience}
@@ -102,6 +107,10 @@ function ApplicantHome(){
                   Total Jobs: {jobs.length}
                 </Text>
               </Card>
+
+              
+              <List data={jobs} renderItem={renderItem} />
+
             </Layout>
           );
     
