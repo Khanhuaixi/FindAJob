@@ -21,7 +21,7 @@ import {
     const { job } = route.params;
     const [isDeleteModalVisible, setDeleteModalVisible] = React.useState(false);
     const [isEditModalVisible, setEditModalVisible] = React.useState(false);
-  
+    const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
     const [newJobName, setNewJobNameValue] = React.useState("");
     const [newJobId, setNewJobIdValue] = React.useState("");
     const [newEmployerId, setNewEmployerIdValue] = React.useState("");
@@ -35,12 +35,14 @@ import {
     const [newSalaryRange, setNewSalaryRangeValue] = React.useState("");
     const [newApplicantList, setNewApplicantListValue] = React.useState("");
     const [isDisabled, setIsDisabled] = useState(true);
-  
+    const [applicantsArray,setApplicantsArray] = React.useState([]);
     const [employers, setEmployers] = useState([]);
     const [selectedEmployerIndex, setSelectedEmployerIndex] = React.useState(
       new IndexPath(0)
     );
     const [applicants, setApplicants] = useState([]);
+
+    const displayValue = applicantsArray[selectedIndex.row];
   
     async function fetchEmployersData() {
       const response = await getEmployers();
@@ -49,10 +51,35 @@ import {
     }
   
     async function handleDeleteJob(i) {
-      await deleteJob(i).then(() => {
-        setDeleteModalVisible(false);
-        navigation.goBack();
+      console.log(i)
+      console.log(applicantsArray)
+      const updatedApplicantsArray = applicantsArray.filter((item) => item !== i);
+      console.log(updatedApplicantsArray)
+      setApplicantsArray(updatedApplicantsArray);
+      setDeleteModalVisible(false);
+      console.log(applicantsArray)
+      const applicantIdsString = updatedApplicantsArray
+        .join(",")
+      console.log(applicantIdsString)
+      setNewApplicantListValue(applicantIdsString)
+
+      await updateJob(
+        job.jobId,
+        newJobName,
+        newEmployerId,
+        newJobDescription,
+        newCareerLevel,
+        newYearOfExperience,
+        newQualification,
+        newJobType,
+        newJobSpecialization,
+        newSalaryRange,
+        applicantIdsString
+      ).then(() => {
+        job.applicantList = applicantIdsString;
+
       });
+      
     }
   
     async function handleUpdateJob() {
@@ -107,6 +134,8 @@ import {
         const applicantIdsArray = applicantIdsString
           .split(",")
           .map((str) => parseInt(str.trim()));
+        
+        setApplicantsArray(applicantIdsArray)
     
           const fetchApplicants = async () => {
             const applicantPromises = applicantIdsArray.map((applicantId) => {
@@ -179,9 +208,18 @@ import {
   
     const Footer = (props) => (
       <View {...props} style={[props.style, styles.footerContainer]}>
+        <Select
+              style={styles.select}
+              value={displayValue}
+              label="Applicant ID"
+              selectedIndex={selectedIndex}
+              onSelect={(index) => setSelectedIndex(index)}
+            >
+        {applicantsArray.map(renderOption)}    
+        </Select>
         <Button
           onPress={() => setDeleteModalVisible(true)}
-          style={styles.footerControl}
+          style={styles.deleteButton}
           size="small"
           status="danger"
         >
@@ -230,7 +268,7 @@ import {
               <Button status="basic" onPress={() => setDeleteModalVisible(false)}>
                 CANCEL
               </Button>
-              <Button status="danger" onPress={() => handleDeleteJob(job.jobId)}>
+              <Button status="danger" onPress={() => handleDeleteJob(displayValue)}>
                 CONFIRM
               </Button>
             </View>
@@ -354,6 +392,11 @@ import {
     },
     footerControl: {
       marginHorizontal: 2,
+    },
+    deleteButton:{
+      height:30,
+      alignSelf:"center",
+      marginLeft:40,
     },
     backdrop: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
