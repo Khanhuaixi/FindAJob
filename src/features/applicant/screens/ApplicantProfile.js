@@ -74,7 +74,7 @@ function ApplicantProfile({ navigation }) {
       setOldFirstNameValue(firstName);
       setOldLastNameValue(lastName);
       setOldContactNumberValue(contactNumber);
-      setOldApplicationList(applicationList);
+      setOldApplicationListValue(applicationList);
       setOldExpectedSalaryValue(expectedSalary);
       setOldExperienceValue(experience);
       setOldEducationValue(education);
