@@ -54,10 +54,10 @@ function getApplicantTitle(route) {
   switch (routeName) {
     case "ApplicantHome":
       return "Home";
-      case "ApplicantProfile":
-      return "Profile";
       case "AppliedJobs":
       return "Jobs";
+      case "ApplicantProfile":
+      return "Profile";
   }
 }
 
@@ -145,13 +145,6 @@ export default () => (
             })}
           />
           <Stack.Screen
-            name="ApplicantProfile"
-            component={ApplicantProfile}
-            options={() => ({
-              headerTitle: "Applicant Profile",
-            })}
-          />
-          <Stack.Screen
             name="AppliedJobs"
             component={AppliedJobs}
             options={() => ({
@@ -163,6 +156,13 @@ export default () => (
             component={ApplicantJobApplication}
             options={() => ({
               headerTitle: "Applicant Job Application",
+            })}
+          />
+          <Stack.Screen
+            name="ApplicantProfile"
+            component={ApplicantProfile}
+            options={() => ({
+              headerTitle: "Applicant Profile",
             })}
           />
           <Stack.Screen

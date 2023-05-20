@@ -97,13 +97,13 @@ function AppliedJobs({ navigation }) {
 
   return (
     <Layout style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text category="h5">Applicant Profile</Text>
-      <Input style={styles.input} value={email} label="Email" disabled />
+      <Text category="h5">Applied Jobs</Text>
+      <Input style={styles.input} value={email} label="Jobs"  />
 
-<ScrollView>
+
     <List data={applicationList} renderItem={renderItem} />
     
-      </ScrollView>
+      
     </Layout>
   );
 }
