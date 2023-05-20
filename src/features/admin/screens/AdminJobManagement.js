@@ -13,7 +13,7 @@ import {
 } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { getApplicantById } from "react-native-web/dist/cjs/exports/AppRegistry/renderApplication";
+import { getApplicantById } from "../../../api/applicants";
 import { getEmployers } from "../../../api/employers";
 import { deleteJob, updateJob } from "../../../api/jobs";
 
@@ -85,6 +85,17 @@ function AdminJobManagement({ route, navigation }) {
     });
   }
 
+  // async function fetchApplicantById(id) {
+  //   try {
+  //     const response = getApplicantById(id);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error(error);
+  //     // Handle the error as needed
+  //     return null;
+  //   }
+  // }
+
   useEffect(() => {
     setNewEmployerIdValue(employers[selectedEmployerIndex - 1]);
   }, [selectedEmployerIndex]);
@@ -101,7 +112,10 @@ function AdminJobManagement({ route, navigation }) {
           return getApplicantById(applicantId);
         });
         const applicants = await Promise.all(applicantPromises);
-        setApplicants(applicants);
+        const validApplicants = applicants.filter(
+          (applicant) => applicant !== null
+        );
+        setApplicants(validApplicants);
       };
 
       fetchApplicants();
@@ -189,7 +203,7 @@ function AdminJobManagement({ route, navigation }) {
   const renderItem = (info) => (
     <ListItem
       title={`${info.item.applicantId}`}
-      description={`Name: ${info.item.firstName} ${info.item.lastName} {"\n} Email: ${info.item.email}`}
+      description={`Name: ${info.item.firstName} ${info.item.lastName}\nEmail: ${info.item.email}`}
     />
   );
 
