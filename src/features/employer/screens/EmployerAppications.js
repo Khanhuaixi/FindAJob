@@ -162,26 +162,7 @@ function EmployerApplications({ navigation }) {
     </View>
   );
 
-  const renderItemFooter = (footerProps, info) => (
-    <Text {...footerProps}>
-      <Text>
-        Year Of Experience Needed:{"\n"}
-        {info.item.yearOfExperience}
-        {"\n"}
-        {"\n"}
-      </Text>
-      <Text>
-        Career Level:{"\n"}
-        {info.item.careerLevel}
-        {"\n"}
-        {"\n"}
-      </Text>
-      Qualification:{"\n"}
-      {info.item.qualification}
-      {"\n"}
-      {"\n"}
-    </Text>
-  );
+
 
   const renderItem = (info) => {
     if (info.item.employerId == employer.employerId) {
@@ -190,9 +171,8 @@ function EmployerApplications({ navigation }) {
           style={styles.card}
           status="basic"
           header={(headerProps) => renderItemHeader(headerProps, info)}
-          footer={(footerProps) => renderItemFooter(footerProps, info)}
           onPress={() => {
-            navigation.navigate("EmployerJobManagement", {
+            navigation.navigate("EmployerApplicationManagement", {
               job: info.item,
             });
           }}
@@ -205,16 +185,6 @@ function EmployerApplications({ navigation }) {
           <Text>
             Job Specialization:{"\n"}
             {info.item.jobSpecialization}
-            {"\n"}
-          </Text>
-          <Text>
-            Salary Range:{"\n"}
-            RM{info.item.salaryRange}
-            {"\n"}
-          </Text>
-          <Text>
-            Job Description:{"\n"}
-            {info.item.jobDescription}
             {"\n"}
           </Text>
         </Card>
@@ -258,9 +228,6 @@ function EmployerApplications({ navigation }) {
 
       
       <List data={jobs} renderItem={renderItem} />
-      <Button style={styles.button} onPress={() => setCreateModalVisible(true)}>
-        Add New Job
-      </Button>
 
       <Modal
         style={styles.modal}

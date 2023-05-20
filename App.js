@@ -24,6 +24,7 @@ import { EmployerTabBar } from "./src/features/employer/navigation/EmployerTabBa
 import EmployerProfile from "./src/features/employer/screens/EmployerProfile";
 import EmployerJobList from "./src/features/employer/screens/EmployerJobList";
 import EmployerApplications from "./src/features/employer/screens/EmployerAppications";
+import EmployerApplicationManagement from "./src/features/employer/screens/EmployerApplicationManagement";
 import AdminApplicantManagement from "./src/features/admin/screens/AdminApplicantManagement";
 import ApplicantHome from "./src/features/applicant/screens/ApplicantHome";
 import ApplicantProfile from "./src/features/applicant/screens/ApplicantProfile";
@@ -197,6 +198,13 @@ export default () => (
             component={EmployerApplications}
             options={() => ({
               headerTitle: "Employer Applications",
+            })}
+          />
+          <Stack.Screen
+            name="EmployerApplicationManagement"
+            component={EmployerApplicationManagement}
+            options={() => ({
+              headerTitle: "Employer Applications Management",
             })}
           />
         </Stack.Navigator>
