@@ -3,6 +3,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 
 import ApplicantHome from "../screens/ApplicantHome";
 import ApplicantProfile from "../screens/ApplicantProfile";
+import AppliedJobs from "../screens/AppliedJobs";
 
 const Tab = createMaterialBottomTabNavigator();
 
