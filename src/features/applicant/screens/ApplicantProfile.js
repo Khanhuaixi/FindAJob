@@ -44,11 +44,11 @@ function ApplicantProfile({ navigation }) {
   async function handleUpdateApplicant() {
     await updateApplicant(     
       applicant.applicantId,
-      email,
       firstName,
       lastName,
       email,
       contactNumber,
+      applicationList,
       expectedSalary,
       experience,
       education,
