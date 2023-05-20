@@ -13,7 +13,7 @@ export function ApplicantTabBar() {
           name="Home"
           component={ApplicantHome}
           options={{
-            tabBarLabel: "ApplicantHome",
+            tabBarLabel: "Home",
             tabBarIcon: () => <Ionicons name="home-outline" size={20} />,
           }}
         />
