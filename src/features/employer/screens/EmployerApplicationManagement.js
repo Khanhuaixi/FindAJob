@@ -238,7 +238,7 @@ import {
     const renderItem = (info) => (
       <ListItem
         title={`${info.item.applicantId}`}
-        description={`First Name: ${info.item.firstName} \nLast Name: ${info.item.lastName} \nEmail: ${info.item.email} \nContact Number: ${info.item.contactNumber} \nAddress: ${info.item.address}`}
+        description={`First Name: ${info.item.firstName} \nLast Name: ${info.item.lastName} \nAge: ${info.item.age} \nEmail: ${info.item.email} \nContact Number: ${info.item.contactNumber} \nAddress: ${info.item.address} \nExpected Salary: ${info.item.expectedSalary} \nExperience: ${info.item.experience} \nLanguages: ${info.item.languages} \nEducation: ${info.item.education} \nSkill: ${info.item.skill}`}
       />
     );
   
@@ -423,7 +423,7 @@ import {
     list: {
       margin: 0,
       marginBottom: 15,
-      maxHeight: 500,
+      maxHeight: 400,
     },
     text: {
       margin: 10,
