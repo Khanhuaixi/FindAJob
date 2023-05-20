@@ -13,9 +13,9 @@ import {
 } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { getApplicantById } from "react-native-web/dist/cjs/exports/AppRegistry/renderApplication";
 import { getEmployers } from "../../../api/employers";
 import { deleteJob, updateJob } from "../../../api/jobs";
+import axios from "axios";
 
 function EmployerJobManagement({ route, navigation }) {
   const { job } = route.params;
@@ -85,25 +85,39 @@ function EmployerJobManagement({ route, navigation }) {
     });
   }
 
+  async function getApplicantById(id) {
+    try {
+      const response = await axios.get(
+        `http://mpma-prod.us-east-1.elasticbeanstalk.com/api/applicants/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      // Handle the error as needed
+      return null;
+    }
+  }
+
   useEffect(() => {
     setNewEmployerIdValue(employers[selectedEmployerIndex - 1]);
   }, [selectedEmployerIndex]);
 
   useEffect(() => {
-    if (job.applicantList != "") {
+    if (job.applicantList !== "") {
       const applicantIdsString = job.applicantList;
       const applicantIdsArray = applicantIdsString
         .split(",")
-        .map((str) => str.trim());
-
-      const fetchApplicants = async () => {
-        const applicantPromises = applicantIdsArray.map((applicantId) => {
-          return getApplicantById(applicantId);
-        });
-        const applicants = await Promise.all(applicantPromises);
-        setApplicants(applicants);
-      };
-
+        .map((str) => parseInt(str.trim()));
+  
+        const fetchApplicants = async () => {
+          const applicantPromises = applicantIdsArray.map((applicantId) => {
+            return getApplicantById(applicantId);
+          });
+          const applicants = await Promise.all(applicantPromises);
+          const validApplicants = applicants.filter((applicant) => applicant !== null);
+          setApplicants(validApplicants);
+        };
+  
       fetchApplicants();
     }
   }, [job]);
@@ -188,7 +202,7 @@ function EmployerJobManagement({ route, navigation }) {
   const renderItem = (info) => (
     <ListItem
       title={`${info.item.applicantId}`}
-      description={`Name: ${info.item.firstName} ${info.item.lastName} {"\n} Email: ${info.item.email}`}
+      description={`Name: ${info.item.firstName} ${info.item.lastName} \nEmail: ${info.item.email}`}
     />
   );
 
