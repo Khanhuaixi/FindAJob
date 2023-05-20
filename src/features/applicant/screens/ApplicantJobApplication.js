@@ -59,53 +59,55 @@ import {
       );
     
       const renderOption = (title) => <SelectItem key="{title}" title={title} />;
+
+      return (
+        <View style={styles.container}>
+          <Card style={styles.card} header={Header} footer={Footer}>
+            <Text category="s1">Job Name:</Text>
+            <Text>
+              {job.employerId}
+              {"\n"}
+            </Text>
+            <Text category="s1">Job Description:</Text>
+            <Text>
+              {job.jobDescription}
+              {"\n"}
+            </Text>
+            <Text category="s1">Career Level:</Text>
+            <Text>
+              {job.careerLevel}
+              {"\n"}
+            </Text>
+            <Text category="s1">Years of Experience:</Text>
+            <Text>
+              {job.yearOfExperience}
+              {"\n"}
+            </Text>
+            <Text category="s1">Qualification:</Text>
+            <Text>
+              {job.qualification}
+              {"\n"}
+            </Text>
+            <Text category="s1">Job Type:</Text>
+            <Text>
+              {job.jobType}
+              {"\n"}
+            </Text>
+            <Text category="s1">Job Specialization:</Text>
+            <Text>
+              {job.jobSpecialization}
+              {"\n"}
+            </Text>
+            <Text category="s1">Salary Range:</Text>
+            <Text>
+              RM{job.salaryRange}
+              {"\n"}
+            </Text>
+            </Card>
+            </View>)
   }
 
-  return (
-    <View style={styles.container}>
-      <Card style={styles.card} header={Header} footer={Footer}>
-        <Text category="s1">Employer Id:</Text>
-        <Text>
-          {job.employerId}
-          {"\n"}
-        </Text>
-        <Text category="s1">Job Description:</Text>
-        <Text>
-          {job.jobDescription}
-          {"\n"}
-        </Text>
-        <Text category="s1">Career Level:</Text>
-        <Text>
-          {job.careerLevel}
-          {"\n"}
-        </Text>
-        <Text category="s1">Years of Experience:</Text>
-        <Text>
-          {job.yearOfExperience}
-          {"\n"}
-        </Text>
-        <Text category="s1">Qualification:</Text>
-        <Text>
-          {job.qualification}
-          {"\n"}
-        </Text>
-        <Text category="s1">Job Type:</Text>
-        <Text>
-          {job.jobType}
-          {"\n"}
-        </Text>
-        <Text category="s1">Job Specialization:</Text>
-        <Text>
-          {job.jobSpecialization}
-          {"\n"}
-        </Text>
-        <Text category="s1">Salary Range:</Text>
-        <Text>
-          RM{job.salaryRange}
-          {"\n"}
-        </Text>
-        </Card>
-        </View>)
+ 
 
 
 export default ApplicantJobApplication;
