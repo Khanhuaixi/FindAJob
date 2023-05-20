@@ -207,31 +207,38 @@ import {
     );
   
     const Footer = (props) => (
-      <View {...props} style={[props.style, styles.footerContainer]}>
-        <Select
+        <View {...props} style={[props.style, styles.footerContainer]}>
+          {applicantsArray.length > 0 ? (
+            <Select
               style={styles.select}
               value={displayValue}
               label="Applicant ID"
               selectedIndex={selectedIndex}
               onSelect={(index) => setSelectedIndex(index)}
             >
-        {applicantsArray.map(renderOption)}    
-        </Select>
-        <Button
-          onPress={() => setDeleteModalVisible(true)}
-          style={styles.deleteButton}
-          size="small"
-          status="danger"
-        >
-          DELETE
-        </Button>
-      </View>
-    );
+              {applicantsArray.map(renderOption)}
+            </Select>
+          ) : (
+            <Text></Text>
+          )}
+          {applicantsArray.length > 0 && (
+            <Button
+              onPress={() => setDeleteModalVisible(true)}
+              style={styles.deleteButton}
+              size="small"
+              status="danger"
+            >
+              DELETE
+            </Button>
+          )}
+        </View>
+      );
+      
   
     const renderItem = (info) => (
       <ListItem
         title={`${info.item.applicantId}`}
-        description={`First Name: ${info.item.firstName} \nLast Name: ${info.item.lastName} \nEmail: ${info.item.email}`}
+        description={`First Name: ${info.item.firstName} \nLast Name: ${info.item.lastName} \nEmail: ${info.item.email} \nContact Number: ${info.item.contactNumber} \nAddress: ${info.item.address}`}
       />
     );
   
