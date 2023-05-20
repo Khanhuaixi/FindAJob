@@ -12,6 +12,7 @@ function ApplicantProfile({ navigation }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [applicationList, setApplicationList] = useState(null);
   const [firstName, setFirstNameValue] = React.useState("");
   const [oldFirstName, setOldFirstNameValue] = React.useState("");
   const [lastName, setLastNameValue] = React.useState("");
@@ -60,6 +61,7 @@ function ApplicantProfile({ navigation }) {
       applicant.firstName = firstName;
       applicant.lastName = lastName;
       applicant.contactNumber = contactNumber;
+      applicant.applicationList = applicationList;
       applicant.expectedSalary = expectedSalary;
       applicant.experience = experience;
       applicant.education = education;
