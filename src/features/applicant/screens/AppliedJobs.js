@@ -1,4 +1,4 @@
-import { Button, Input, Layout, Text } from "@ui-kitten/components";
+import { Button, Input, Layout, Text, List } from "@ui-kitten/components";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { firebase } from "../../../../config";
