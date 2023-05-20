@@ -17,7 +17,7 @@ import { createJob, getJobs } from "../../../api/jobs";
 import { getEmployers } from "../../../api/employers";
 import { firebase } from "../../../../config";
 
-function EmployerJobList({ navigation }) {
+function EmployerApplications({ navigation }) {
   const isFocused = useIsFocused();
   const [isCreateModalVisible, setCreateModalVisible] = React.useState(false);
   const [user, setUser] = useState("");
@@ -39,6 +39,7 @@ function EmployerJobList({ navigation }) {
   const [isDisabled, setIsDisabled] = useState(true);
   const [employers, setEmployers] = useState([]);
   const [employer, setEmployer] = useState([]);
+  const [job, setJob] = useState([]);
 
 
   const db = firebase.firestore();
@@ -63,6 +64,22 @@ function EmployerJobList({ navigation }) {
       });
     };
     fetchUser();
+
+    const findJobById = async () => {
+      setNewEmployerIdValue(employer.employerId)
+      console.log(newEmployerId)
+      const job = jobs.find((job) => job.employerId === newEmployerId);
+      console.log(job)
+      if (job) {
+        console.log(job)
+        setJob(job)
+        if (job !== "undefined") {
+          setEmployerJobs(job.employerId);
+        }
+      }
+    }
+
+    findJobById();
   }, []);
 
   useEffect(() => {
@@ -371,4 +388,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EmployerJobList;
+export default EmployerApplications;
+
+
