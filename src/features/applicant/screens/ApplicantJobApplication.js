@@ -107,7 +107,44 @@ import {
             </View>)
   }
 
- 
+  const styles = StyleSheet.create({
+    container: {
+      maxHeight: 180,
+      flex: 1,
+    },
+    card: {
+      margin: 5,
+      width: "auto",
+    },
+    cardTop: {
+      marginHorizontal: 20,
+      marginVertical: 5,
+      width: "auto",
+    },
+    textCardTop: {
+      alignSelf: "center",
+    },
+    button: {
+      margin: 5,
+      width: "auto",
+    },
+    backdrop: {
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    input: {
+      marginBottom: 15,
+    },
+    modal: {
+      width: "80%",
+      maxHeight: "60%",
+      justifyContent: "center",
+    },
+    select: {
+      flex: 1,
+      margin: 2,
+    },
+  });
+   
 
 
 export default ApplicantJobApplication;
