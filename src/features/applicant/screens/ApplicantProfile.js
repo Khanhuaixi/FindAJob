@@ -12,7 +12,8 @@ function ApplicantProfile({ navigation }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [applicationList, setApplicationList] = useState(null);
+  const [applicationList, setApplicationListValue] = React.useState("");
+  const [oldApplicationList, setOldApplicationListValue] = React.useState("");
   const [firstName, setFirstNameValue] = React.useState("");
   const [oldFirstName, setOldFirstNameValue] = React.useState("");
   const [lastName, setLastNameValue] = React.useState("");
@@ -72,6 +73,7 @@ function ApplicantProfile({ navigation }) {
       setOldFirstNameValue(firstName);
       setOldLastNameValue(lastName);
       setOldContactNumberValue(contactNumber);
+      setOldApplicationList(applicationList);
       setOldExpectedSalaryValue(expectedSalary);
       setOldExperienceValue(experience);
       setOldEducationValue(education);
@@ -149,6 +151,7 @@ function ApplicantProfile({ navigation }) {
             setFirstNameValue(applicant.firstName);
             setLastNameValue(applicant.lastName); 
             setContactNumberValue(applicant.contactNumber);
+            setApplicationListValue(applicant.applicationList);
             setExpectedSalaryValue(applicant.expectedSalary);
             setExperienceValue(applicant.experience);
             setEducationValue(applicant.education);
@@ -205,6 +208,13 @@ function ApplicantProfile({ navigation }) {
         onChangeText={(nextValue) => setContactNumberValue(nextValue)}
         autoCapitalize="none"
       />
+
+      <Text>
+        ApplicationList:{"\n"}
+        RM{info.item.applicationList}
+        {"\n"}
+      </Text>
+
 
       <Input
         style={styles.input}
