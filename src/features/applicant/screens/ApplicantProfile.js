@@ -44,6 +44,7 @@ function ApplicantProfile({ navigation }) {
   const userRef = db.collection("users").doc(userId);
 
   async function handleUpdateApplicant() {
+    console.log(address)
     await updateApplicant(     
       applicant.applicantId,
       firstName,
@@ -209,13 +210,6 @@ function ApplicantProfile({ navigation }) {
         autoCapitalize="none"
       />
 
-      <Text>
-        ApplicationList:{"\n"}
-        RM{info.item.applicationList}
-        {"\n"}
-      </Text>
-
-
       <Input
         style={styles.input}
         value={expectedSalary}
@@ -275,9 +269,12 @@ function ApplicantProfile({ navigation }) {
         value={address}
         label="Address"
         placeholder={address}
-        onChangeText={(nextValue) => setAddressValue(nextValue)}
+        //onChangeText={(nextValue) => setAddressValue(nextValue)}//
+        onChangeText={setAddressValue}
         autoCapitalize="none"
       />
+
+      
 
       <Button
         style={styles.button}

@@ -28,6 +28,7 @@ import AdminApplicantManagement from "./src/features/admin/screens/AdminApplican
 import ApplicantHome from "./src/features/applicant/screens/ApplicantHome";
 import ApplicantProfile from "./src/features/applicant/screens/ApplicantProfile";
 import { ApplicantTabBar } from "./src/features/applicant/navigation/ApplicantTabBar";
+import AppliedJobs from "./src/features/applicant/screens/AppliedJobs";
 
 // const Stack = createStackNavigator();
 const Stack = createNativeStackNavigator();
@@ -50,10 +51,12 @@ function getAdminTitle(route) {
 function getApplicantTitle(route) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? "ApplicantTabBar";
   switch (routeName) {
-    case "Applicant Home":
+    case "ApplicantHome":
       return "Home";
-      case "Applicant Profile":
+      case "ApplicantProfile":
       return "Profile";
+      case "AppliedJobs":
+      return "Jobs";
   }
 }
 
@@ -145,6 +148,13 @@ export default () => (
             component={ApplicantProfile}
             options={() => ({
               headerTitle: "Applicant Profile",
+            })}
+          />
+          <Stack.Screen
+            name="AppliedJobs"
+            component={AppliedJobs}
+            options={() => ({
+              headerTitle: "Applied Jobs",
             })}
           />
           <Stack.Screen

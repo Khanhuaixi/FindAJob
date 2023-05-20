@@ -25,6 +25,14 @@ export function ApplicantTabBar() {
             tabBarIcon: () => <Ionicons name="person-circle-outline" size={20} />,
           }}
         />  
+        <Tab.Screen
+          name="AppliedJobs"
+          component={AppliedJobs}
+          options={{
+            tabBarLabel: "Applied Jobs",
+            tabBarIcon: () => <Ionicons name="briefcase-outline" size={20} />,
+          }}
+        />  
               
       </Tab.Navigator>
     );
