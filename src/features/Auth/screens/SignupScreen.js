@@ -122,9 +122,9 @@ export default function SignupScreen({ navigation }) {
             .then(() => {
               navigation.reset({
                 index: 0,
-                routes: [{ name: "AdminTabBar" }],
+                routes: [{ name: "ApplicantTabBar" }],
               });
-              navigation.navigate("AdminTabBar");
+              navigation.navigate("ApplicantTabBar");
             })
             .catch((error) => {
               alert(error);
