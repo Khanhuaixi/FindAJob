@@ -99,6 +99,7 @@ function ApplicantProfile({ navigation }) {
     setNewFirstNameValue("");
     setNewLastNameValue("");
     setNewContactNumberValue("");
+    setNewApplicationListValue("");
     setNewExpectedSalaryValue("");
     setNewExperienceValue("");
     setNewEducationValue("");
@@ -163,6 +164,7 @@ function ApplicantProfile({ navigation }) {
             setOldFirstNameValue(applicant.firstName);
             setOldLastNameValue(applicant.lastName); 
             setOldContactNumberValue(applicant.contactNumber);
+            setOldApplicationListValue(applicant.applicationList)
             setOldExpectedSalaryValue(applicant.expectedSalary);
             setOldExperienceValue(applicant.experience);
             setOldEducationValue(applicant.education);
